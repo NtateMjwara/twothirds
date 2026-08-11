@@ -1,0 +1,854 @@
+/* ============================================================
+   Design tokens
+   Palette grounded in SA vehicle registration and registry
+   documents - not a generic fintech blue, not the cream/terracotta
+   or dark/neon defaults.
+   ============================================================ */
+:root {
+    --ink: #1B2028;
+    --ink-muted: #5B6270;
+    --paper: #F6F5F0;
+    --surface: #FFFFFF;
+    --road: #3D4550;
+    --road-30: rgba(61, 69, 80, 0.3);
+    --road-15: rgba(61, 69, 80, 0.15);
+    --accent: #C9A227;
+    --accent-ink: #8A6E14;
+    --accent-10: rgba(201, 162, 39, 0.18);
+    --success: #2F6B4F;
+    --success-bg: #E7F1EC;
+    --danger: #A23B3B;
+    --danger-bg: #F5E9E9;
+    --maroon: #C4415A;
+
+    --font-display: 'Space Grotesk', system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+    --font-elegant: 'Playfair Display', Georgia, serif;
+
+    --radius: 8px;
+    --shadow-sm: 0 1px 2px rgba(27,32,40,0.06), 0 1px 1px rgba(27,32,40,0.04);
+    --shadow-md: 0 6px 16px rgba(27,32,40,0.10), 0 2px 4px rgba(27,32,40,0.05);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; height: 100%; }
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5em;
+}
+h1 { font-size: 1.75rem; }
+h2 { font-size: 1.25rem; margin-top: 1.5em; }
+h3 { font-size: 1rem; }
+
+p { margin: 0 0 1em; }
+
+a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+a:hover { color: var(--accent-ink); }
+
+.muted { color: var(--ink-muted); }
+
+.sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.kicker-sm {
+    display: inline-block;
+    font-family: var(--font-elegant);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--accent-ink);
+    margin-bottom: 0.35rem;
+}
+
+/* ============================================================
+   Site header - persistent across every page, added this phase
+   ============================================================ */
+.site-header {
+    border-bottom: 1px solid var(--road-15);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+.site-header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.wordmark {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+.wordmark-dot { color: var(--accent); }
+.site-nav { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; }
+.site-nav a { display: inline-flex; align-items: center; gap: 5px; text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.site-nav i { font-size: 0.95rem; }
+.admin-tag {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--road);
+    color: #fff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    vertical-align: middle;
+    margin-left: 4px;
+    font-weight: 600;
+}
+.admin-body { border-top: 3px solid var(--road); }
+.admin-tile {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    font-weight: 500; font-size: 0.85rem; text-decoration: none; color: var(--ink);
+    min-height: 84px; width: 160px; gap: 8px;
+}
+.admin-tile i { font-size: 1.4rem; color: var(--road); }
+
+.site-main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0rem 1.5rem 4rem;
+    flex: 1 0 auto;
+    width: 100%;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 4px;
+}
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+    border-top: 1px solid var(--road-15);
+    background: var(--surface);
+    flex-shrink: 0;
+}
+.site-footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+.footer-links { display: flex; gap: 1.25rem; font-size: 0.88rem; }
+.footer-links a { text-decoration: none; }
+.footer-links a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+.footer-bottom { border-top: 1px solid var(--road-15); padding: 1rem 1.5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+.footer-bottom p { margin: 0; font-size: 0.8rem; }
+
+/* ============================================================
+   Signature component - the reference "plate" badge
+   ============================================================ */
+.ref-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    padding: 3px 8px;
+    border: 1px solid var(--road-30);
+    border-radius: 4px;
+    color: var(--road);
+    background: var(--paper);
+    white-space: nowrap;
+}
+
+.page-title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+.page-title-row h1 { margin: 0; }
+
+/* ============================================================
+   Homepage hero - full-bleed dark band, breaks out of the
+   1200px content container on purpose for visual weight
+   ============================================================ */
+.hero {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1634418074362-1bea22613b18?auto=format&fit=crop&w=1920&q=80');
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    margin: 0 0 2.5rem;
+    overflow: hidden;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+}
+.hero-inner {
+    max-width: 55%;
+    margin: 0 6.5rem;
+    padding: 4.5rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        #8B0000 0%,
+        #8B0000 40%,
+        rgba(0, 0, 0, 0.8) 40%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+.kicker {
+    display: inline-block;
+    font-family: var(--font-elegant);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 5rem;
+}
+.hero h1 { font-size: 2.6rem; max-width: 720px; color: #fff; }
+.hero-lede { color: rgba(255,255,255,0.72); font-size: 1.15rem; max-width: 600px; margin-bottom: 1.75rem; }
+.hero .btn { background: var(--accent); color: var(--ink); border-color: var(--accent); }
+.hero .btn:hover { background: #B8931F; color: var(--ink); box-shadow: var(--shadow-md); }
+
+/* ============================================================
+   Stat blocks - mono numerals, small-caps labels
+   ============================================================ */
+.stat-row { display: flex; gap: 1.5rem; margin: 1.25rem 0; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; gap: 2px; }
+.stat-value {
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--ink);
+}
+.stat-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+}
+
+/* ============================================================
+   Cards / grid
+   ============================================================ */
+.card-grid { display: flex; flex-wrap: wrap; gap: 1rem; }
+.card {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 1.1rem;
+    width: 260px;
+    box-shadow: var(--shadow-sm);
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+.card:hover { border-color: var(--road-30); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.card h3 { margin: 0.6em 0 0.2em; font-size: 1.05rem; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-stats { display: flex; gap: 1.25rem; margin-top: 0.75rem; }
+
+.asset-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--accent-10); color: var(--accent-ink);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; margin-bottom: 10px;
+}
+
+/* ============================================================
+   Tabs - styled as document dividers
+   ============================================================ */
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--road-15); margin-bottom: 1.25rem; overflow-x: auto; }
+.tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+.tab-btn.active { border-bottom-color: var(--accent); color: var(--ink); }
+.tab-panel { padding-top: 0.25rem; }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+button {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    padding: 8px 14px;
+    border: 1px solid var(--road-30);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+}
+button:hover { border-color: var(--road); }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--ink);
+    color: #fff;
+    border: 1px solid var(--ink);
+    padding: 9px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+.btn:hover { background: #2A303B; color: #fff; box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 8px 17px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-outline:hover { background: var(--paper); }
+
+/* ============================================================
+   Forms - base styling so every existing form benefits without
+   any view needing to change its markup
+   ============================================================ */
+label { font-weight: 500; font-size: 0.88rem; display: inline-block; }
+
+input[type="text"], input[type="email"], input[type="password"],
+input[type="date"], input[type="number"], input[type="tel"],
+input[type="file"], select, textarea {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 9px 11px;
+    border: 1px solid var(--road-30);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
+    width: 100%;
+    max-width: 420px;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-10);
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+table { border-collapse: collapse; width: 100%; margin-bottom: 1rem; font-size: 0.92rem; }
+table th {
+    text-align: left;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    padding: 8px;
+    border-bottom: 1px solid var(--road-30);
+}
+table td { padding: 8px; border-bottom: 1px solid var(--road-15); }
+table tr:hover td { background: var(--paper); }
+
+/* ============================================================
+   Status pieces reused across account/admin views
+   ============================================================ */
+.account-nav { display: flex; gap: 1rem; border-bottom: 1px solid var(--road-15); padding-bottom: 0.75rem; margin-bottom: 1.25rem; font-size: 0.88rem; flex-wrap: wrap; }
+.account-nav a { text-decoration: none; }
+.account-nav a:hover { text-decoration: underline; text-decoration-color: var(--accent); }
+
+.notice {
+    background: var(--accent-10);
+    border: 1px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 1rem;
+    font-size: 0.88rem;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    cursor: pointer;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+}
+
+/* ============================================================
+   Accessibility - respected regardless of how quiet the rest
+   of the design is
+   ============================================================ */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+}
+
+/* ============================================================
+   Narrow card - centered single-purpose forms and confirmations
+   (auth, commit) - scoped so it never touches admin's plain forms
+   ============================================================ */
+.narrow-card {
+    max-width: 420px;
+    margin: 2rem auto;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+.narrow-card h1 { margin-bottom: 1.1rem; }
+.narrow-card label { display: block; margin-bottom: 14px; font-size: 0.85rem; font-weight: 500; }
+.narrow-card label input, .narrow-card label select {
+    display: block; margin-top: 6px; width: 100%; max-width: none;
+}
+.narrow-card .btn { width: 100%; justify-content: center; border: 1px solid var(--ink); }
+.narrow-card p.muted { margin-top: 1rem; margin-bottom: 0; font-size: 0.88rem; }
+
+.form-error {
+    background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger);
+    border-radius: 6px; padding: 8px 12px; font-size: 0.85rem; margin-bottom: 1rem;
+}
+.form-success {
+    background: var(--success-bg); color: var(--success); border: 1px solid var(--success);
+    border-radius: 6px; padding: 8px 12px; font-size: 0.85rem; margin-bottom: 1rem;
+}
+.status-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--success-bg); color: var(--success);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem; margin: 0 auto 1rem;
+}
+
+/* ============================================================
+   Settings card - like narrow-card but left-aligned, not centered,
+   for account settings pages that sit under the account nav
+   ============================================================ */
+.settings-card {
+    max-width: 480px;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+}
+.settings-card label { display: block; margin-bottom: 14px; font-size: 0.85rem; font-weight: 500; }
+.settings-card label input, .settings-card label select {
+    display: block; margin-top: 6px; width: 100%; max-width: none;
+}
+
+/* ============================================================
+   Status badge - pending/verified/rejected and similar states
+   ============================================================ */
+.status-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+.status-badge.status-pending { background: var(--accent-10); color: var(--accent-ink); }
+.status-badge.status-verified, .status-badge.status-active, .status-badge.status-confirmed { background: var(--success-bg); color: var(--success); }
+.status-badge.status-rejected, .status-badge.status-withdrawn, .status-badge.status-expired, .status-badge.status-failed { background: var(--danger-bg); color: var(--danger); }
+.status-badge.status-inactive, .status-badge.status-sold, .status-badge.status-resigned { background: var(--road-15); color: var(--ink-muted); }
+
+/* Inline search form used by registry and investor list */
+.search-bar { display: flex; gap: 8px; margin-bottom: 1.25rem; max-width: 420px; }
+.search-bar input { flex: 1; }
+
+/* Compact action links inside a table row - replaces the old middot-separated
+   inline text wall used across every admin table since Phase 2. */
+.admin-actions { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.82rem; align-items: center; }
+.admin-actions a { white-space: nowrap; }
+.admin-actions form { display: inline-flex; gap: 6px; align-items: center; margin: 0; }
+
+.btn-compact { padding: 5px 12px; font-size: 0.78rem; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+.btn-compact.btn-positive { background: var(--success); color: #fff; border: 1px solid var(--success); }
+.btn-compact.btn-negative { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+
+/* ============================================================
+   Featured carousel - the homepage snippet grid becomes a real
+   touch/arrow carousel on small screens instead of stacking into
+   a single column
+   ============================================================ */
+.featured-carousel-wrap { position: relative; margin-top: 1.25rem; }
+.featured-carousel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.carousel-arrow {
+    display: none;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    box-shadow: var(--shadow-md);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    color: var(--ink);
+    padding: 0;
+    font-size: 1.1rem;
+}
+.carousel-prev { left: 4px; }
+.carousel-next { right: 4px; }
+
+/* ============================================================
+   Mobile
+   ============================================================ */
+@media (max-width: 600px) {
+    .site-header-inner, .site-main { padding-left: 1rem; padding-right: 1rem; }
+    .card { width: 100%; }
+    .stat-row { gap: 1rem; }
+
+    /* Nav collapses behind a toggle instead of wrapping onto extra lines */
+    .nav-toggle { display: block; }
+    .site-header-inner { position: relative; flex-wrap: nowrap; }
+    .site-nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--surface);
+        border-bottom: 1px solid var(--road-15);
+        box-shadow: var(--shadow-md);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 0.25rem 1rem 0.75rem;
+        z-index: 20;
+    }
+    .site-nav.open { display: flex; }
+    .site-nav a { padding: 10px 4px; border-bottom: 1px solid var(--road-15); }
+    .site-nav a:last-child { border-bottom: none; }
+    .site-nav .btn { margin-top: 6px; justify-content: center; }
+
+    .footer-links { width: 100%; justify-content: flex-start; }
+}
+
+/* ============================================================
+   Featured carousel breakpoints - one clear step at a time,
+   regardless of how many cards are visible per "page"
+   ============================================================ */
+@media (max-width: 1099px) {
+    .featured-carousel {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    .featured-carousel::-webkit-scrollbar { display: none; }
+    .featured-carousel .card { scroll-snap-align: center; }
+    .carousel-arrow { display: flex; }
+}
+
+/* Phones, portrait: exactly one centered card, nothing peeking at the edges */
+@media (max-width: 600px) {
+    .featured-carousel .card { flex: 0 0 100%; width: 100%; }
+    .hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        background: linear-gradient(
+            to bottom,
+            #8B0000 0%,
+            #8B0000 30%,
+            rgba(0, 0, 0, 0.8) 30%,
+            rgba(0, 0, 0, 0.8) 100%
+        );        
+            
+    }
+    
+    .kicker {
+        display: inline-block;
+        font-family: var(--font-elegant);
+        font-style: italic;
+        font-weight: 600;
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 3.5rem;
+    }    
+}
+
+/* Phones in landscape: short viewport height is what actually distinguishes this
+   from a tablet at a similar width, so key off max-height, not just max-width */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    .featured-carousel .card { flex: 0 0 calc(50% - 8px); width: calc(50% - 8px); }
+    .hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+    }
+}
+
+/* Tablets */
+@media (min-width: 601px) and (max-width: 900px) {
+    .featured-carousel .card { flex: 0 0 calc(50% - 8px); width: calc(50% - 8px); }
+    .hero-inner {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 3rem 1.5rem;
+        background: linear-gradient(
+            to bottom,
+            #8B0000 0%,
+            #8B0000 35%,
+            rgba(0, 0, 0, 0.8) 35%,
+            rgba(0, 0, 0, 0.8) 100%
+        );        
+            
+    }
+    
+    .kicker {
+        display: inline-block;
+        font-family: var(--font-elegant);
+        font-style: italic;
+        font-weight: 600;
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 3.5rem;
+    }
+}
+
+/* Large tablet / small desktop - three fit, carousel mode still technically
+   available but with only 3 featured companies there's rarely anything left to
+   scroll to */
+@media (min-width: 901px) and (max-width: 1099px) {
+    .featured-carousel .card { flex: 0 0 calc(33.333% - 11px); width: calc(33.333% - 11px); }
+}
+
+/* ============================================================
+   Discovery page - category/filter sidebar + result grid,
+   dressed up to read as a real investment marketplace rather
+   than a plain listing dump.
+   ============================================================ */
+.discovery-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding: 2rem 0 1.75rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--road-15);
+}
+.discovery-hero h1 { margin-bottom: 0.4em; }
+.discovery-hero-lede { max-width: 520px; margin-bottom: 0; }
+.discovery-hero-stats { margin: 0; flex-wrap: nowrap; }
+.discovery-hero-stats .stat-value { font-size: 1.4rem; }
+
+.discovery-filter-toggle { display: none; margin-bottom: 1rem; width: 100%; justify-content: center; }
+
+.discovery-layout {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 1.75rem;
+    align-items: start;
+}
+
+.discovery-filters {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 84px;
+}
+.filter-group { margin-bottom: 1.25rem; }
+.filter-group:last-of-type { margin-bottom: 1.5rem; }
+.filter-group label, .filter-group-label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+}
+.filter-group input, .filter-group select { max-width: none; }
+
+.pill-group { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill {
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 500;
+    padding: 5px 11px;
+    border-radius: 999px;
+    border: 1px solid var(--road-30);
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--surface);
+}
+.pill:hover { border-color: var(--road); color: var(--ink); }
+.pill.active { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+.range-inputs { display: flex; align-items: center; gap: 8px; }
+.range-inputs input { width: 0; flex: 1 1 auto; }
+
+.filter-actions { display: flex; flex-direction: column; gap: 10px; }
+.filter-actions .btn { justify-content: center; width: 100%; }
+.link-button-plain {
+    text-align: center;
+    font-size: 0.85rem;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+}
+
+.discovery-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+.discovery-count { margin: 0; font-size: 0.88rem; }
+.discovery-count strong { color: var(--ink); font-weight: 600; }
+.sort-form select { padding: 7px 10px; font-size: 0.85rem; width: auto; }
+
+.active-filter-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 1.25rem; }
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: 999px;
+    background: var(--accent-10);
+    color: var(--accent-ink);
+    text-decoration: none;
+    border: 1px solid transparent;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent-ink); }
+.chip i { font-size: 0.75rem; }
+
+.discovery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem; }
+.discovery-grid .card { width: 100%; }
+.discovery-card { position: relative; }
+
+.category-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent-ink);
+    background: var(--accent-10);
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin: 10px 0 2px;
+}
+
+.funded-bar {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--road-15);
+    margin-top: 0.85rem;
+    overflow: hidden;
+}
+.funded-bar-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+.funded-label { margin: 6px 0 0; font-size: 0.75rem; }
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.empty-state .asset-icon { margin: 0 auto 12px; }
+.empty-state h3 { margin-bottom: 0.35em; }
+
+@media (max-width: 900px) {
+    .discovery-filter-toggle { display: flex; }
+    .discovery-layout { grid-template-columns: 1fr; }
+    .discovery-filters {
+        display: none;
+        position: static;
+    }
+    .discovery-filters.open { display: block; }
+    .discovery-hero { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 600px) {
+    .discovery-hero-stats { flex-wrap: wrap; gap: 1rem; }
+}
