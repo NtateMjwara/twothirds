@@ -1,13 +1,18 @@
 <section class="hero">
     <div class="hero-inner">
-        <p class="kicker">TwoThirds.</p>
-        <h1>Get Rich Slowly.</h1>
-        <p class="hero-lede">
-            TwoThirds gives you the tools to build long-term wealth 
-            by gradually accumulating small pieces of productive assets 
-            across industries in South Africa.
-        </p>
-        <p><a href="/discover" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Explore Our Latest Offering</a></p>
+        <div class="hero-brand">
+            <p class="kicker">TwoThirds</p>
+            <p class="kicker-tag">Asset Management</p>
+        </div>
+        <div class="hero-body">
+            <h1>Get Rich Slowly.</h1>
+            <p class="hero-lede">
+                TwoThirds gives you the tools to build long-term wealth
+                by gradually accumulating small pieces of productive assets
+                across industries in South Africa.
+            </p>
+            <p><a href="/discover" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Explore Our Latest Offering</a></p>
+        </div>
     </div>
 </section>
 
