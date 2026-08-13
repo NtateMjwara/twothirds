@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TwoThirds</title>
+    <?php require __DIR__ . '/../partials/_brand-head.php'; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&family=Marcellus&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
     <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/app.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/app.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">
+    <?php $brandCss = __DIR__ . '/../../../public_html/assets/css/brand.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/brand.css') ?>?v=<?= file_exists($brandCss) ? filemtime($brandCss) : time() ?>">
+    <?php $discoveryCss = __DIR__ . '/../../../public_html/assets/css/discovery.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/discovery.css') ?>?v=<?= file_exists($discoveryCss) ? filemtime($discoveryCss) : time() ?>">
+    <?php $homeCss = __DIR__ . '/../../../public_html/assets/css/home.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/home.css') ?>?v=<?= file_exists($homeCss) ? filemtime($homeCss) : time() ?>">
 </head>
 <body>
     <?php
@@ -18,7 +25,7 @@
     ?>
     <header class="site-header">
         <div class="site-header-inner">
-            <a href="/" class="wordmark">TwoThirds<span class="wordmark-dot">.</span></a>
+            <?php $brandHref = '/'; $brandTag = ''; require __DIR__ . '/../partials/_brand-lockup.php'; ?>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
                 <i class="ti ti-menu-2" aria-hidden="true"></i>
             </button>
@@ -44,8 +51,8 @@
     <footer class="site-footer">
         <div class="site-footer-inner">
             <div>
-                <div class="wordmark">TwoThirds<span class="wordmark-dot">.</span></div>
-                <p class="muted" style="font-size:0.85rem; margin-top:6px; max-width:320px;">
+                <?php $brandHref = '/'; $brandTag = ''; require __DIR__ . '/../partials/_brand-lockup.php'; ?>
+                <p class="muted" style="font-size:0.85rem; margin-top:10px; max-width:320px;">
                     A public record of companies that own real, income-producing assets.
                 </p>
             </div>
