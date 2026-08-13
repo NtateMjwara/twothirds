@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TwoThirds Admin</title>
+    <?php require __DIR__ . '/../partials/_brand-head.php'; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&family=Marcellus&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
     <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/app.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/app.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">
+    <?php $brandCss = __DIR__ . '/../../../public_html/assets/css/brand.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/brand.css') ?>?v=<?= file_exists($brandCss) ? filemtime($brandCss) : time() ?>">
 </head>
 <body class="admin-body">
     <header class="site-header">
         <div class="site-header-inner">
-            <a href="/admin" class="wordmark">TwoThirds<span class="wordmark-dot">.</span><span class="admin-tag">Admin</span></a>
+            <?php $brandHref = '/admin'; $brandTag = 'Admin'; require __DIR__ . '/../partials/_brand-lockup.php'; ?>
             <?php if (!empty($_SESSION['admin_id'])): ?>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
                 <i class="ti ti-menu-2" aria-hidden="true"></i>
