@@ -1,0 +1,130 @@
+/* ============================================================
+   Homepage hero
+   Loaded after app.css and brand.css. Replaces the .hero-inner,
+   .kicker and their three media-query duplicates in app.css —
+   see README for exactly what to delete.
+   ============================================================ */
+
+:root {
+    /* Premium gray, in place of the old #8B0000 band.
+       Not a flat fill: the brand artwork is brushed metal, so the band is a
+       shallow graphite gradient with a hairline highlight along its top edge.
+       That's what separates "premium gray" from "gray". */
+    --graphite-light: #4A515C;
+    --graphite-mid:   #383E48;
+    --graphite-deep:  #2B3038;
+}
+
+/* ------------------------------------------------------------
+   Structure
+   The band used to be a percentage stop inside .hero-inner's gradient, which
+   meant the split had to be hand-tuned at every breakpoint — 40%, then 35%,
+   then 30%. Making it a real element lets the content decide where the band
+   ends, so it stays correct at any width and the three overrides disappear.
+   ------------------------------------------------------------ */
+.hero-inner {
+    background: none;
+    padding: 0;
+}
+
+.hero-brand {
+    padding: 2.25rem 2.5rem 1.75rem;
+    background:
+        linear-gradient(160deg,
+            var(--graphite-light) 0%,
+            var(--graphite-mid) 46%,
+            var(--graphite-deep) 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.hero-body {
+    padding: 2.75rem 2.5rem 3.25rem;
+    background: rgba(18, 21, 26, 0.84);
+}
+
+/* ------------------------------------------------------------
+   Wordmark
+   ------------------------------------------------------------ */
+.kicker {
+    display: block;
+    /* Same face as the logo. --font-brand is defined in brand.css; the stack
+       repeats here so this file still works if the hero ships first. */
+    font-family: var(--font-brand, 'Marcellus', 'Trajan Pro', Optima, Georgia, serif);
+    font-style: normal;
+    font-weight: 400;
+    font-size: clamp(1.55rem, 5.4vw, 2.6rem);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    line-height: 1.05;
+    margin: 0 0 0.55rem;
+    /* Tracking leaves a gap after the final letter; pulling it back keeps the
+       wordmark optically aligned with the tag beneath it. */
+    margin-right: -0.2em;
+    color: #EEF2F7;
+}
+
+/* Silverish white: a brushed highlight running down the letterforms rather than
+   a flat white, so the type picks up the same metal quality as the emblem.
+   Guarded because -webkit-text-fill-color: transparent would erase the text
+   outright anywhere background-clip: text isn't supported; the flat #EEF2F7
+   above stays in force there. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    .kicker {
+        background: linear-gradient(
+            176deg,
+            #FFFFFF 0%,
+            #EDF1F6 34%,
+            #B4BCC7 58%,
+            #E9EDF3 78%,
+            #FFFFFF 100%
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+    }
+}
+
+.kicker-tag {
+    display: block;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: clamp(0.6rem, 1.7vw, 0.78rem);
+    text-transform: uppercase;
+    /* Wider than the wordmark's tracking, as in the artwork — the subordinate
+       line reads as a caption rather than competing with the name. */
+    letter-spacing: 0.34em;
+    margin: 0;
+    margin-right: -0.34em;
+    color: rgba(226, 231, 238, 0.6);
+}
+
+/* ------------------------------------------------------------
+   Body
+   ------------------------------------------------------------ */
+.hero h1 {
+    font-size: clamp(1.7rem, 5vw, 2.6rem);
+    max-width: 720px;
+    color: #fff;
+    margin-top: 0;
+}
+.hero-lede {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    max-width: 600px;
+    margin-bottom: 1.75rem;
+}
+
+@media (max-width: 900px) {
+    .hero-brand { padding: 1.75rem 1.5rem 1.4rem; }
+    .hero-body { padding: 2rem 1.5rem 2.5rem; }
+}
+
+@media (max-width: 600px) {
+    .hero-brand { padding: 1.4rem 1.25rem 1.1rem; }
+    .hero-body { padding: 1.75rem 1.25rem 2.25rem; }
+    /* Tighten tracking as the type shrinks, or the wordmark wraps on a 320px
+       screen and the lockup falls apart. */
+    .kicker { letter-spacing: 0.14em; margin-right: -0.14em; }
+    .kicker-tag { letter-spacing: 0.24em; margin-right: -0.24em; }
+}
