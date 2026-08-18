@@ -31,4 +31,16 @@ class FinancialPeriod extends Model
         $stmt->execute([$companyId]);
         return $stmt->fetch();
     }
+    
+    /** Newest first — the financials tab reads downward from the latest period. */
+    public static function forCompany(int $companyId): array
+    {
+        $stmt = Database::connection()->prepare(
+            "SELECT * FROM financial_periods
+             WHERE company_id = ?
+             ORDER BY period_start DESC"
+        );
+        $stmt->execute([$companyId]);
+        return $stmt->fetchAll();
+    }    
 }
