@@ -3,9 +3,14 @@
  * Result pagination.
  *
  * Expects: $result (page, pages, total, per_page) and $filters.
+ * Optionally $paginationBase — the path links are built on, defaulting to
+ * /browse. It's a variable rather than hardcoded so this partial can be reused
+ * by any paginated list without a second copy of the windowing logic.
+ *
  * Links are plain GET URLs built from the current filter set, so a page deep in
  * a filtered result is shareable and survives a refresh.
  */
+$base = $paginationBase ?? '/browse';
 $page = (int) $result['page'];
 $pages = (int) $result['pages'];
 
@@ -34,12 +39,12 @@ $last = min((int) $result['total'], $page * (int) $result['per_page']);
     <ul class="pagination-list">
         <li>
             <?php if ($page > 1): ?>
-                <a class="page-link page-step" href="/discover<?= e(query_with($filters, ['page' => $page - 1])) ?>" rel="prev">
-                    <i class="ti ti-chevron-left" aria-hidden="true"></i><span class="page-step-label">Previous</span>
+                <a class="page-link page-step" href="<?= e($base . query_with($filters, ['page' => $page - 1])) ?>" rel="prev">
+                    <i class="ti ti-chevron-left" aria-hidden="true"></i><span class="page-step-label">Prev</span>
                 </a>
             <?php else: ?>
                 <span class="page-link page-step is-disabled" aria-disabled="true">
-                    <i class="ti ti-chevron-left" aria-hidden="true"></i><span class="page-step-label">Previous</span>
+                    <i class="ti ti-chevron-left" aria-hidden="true"></i><span class="page-step-label">Prev</span>
                 </span>
             <?php endif; ?>
         </li>
@@ -53,7 +58,7 @@ $last = min((int) $result['total'], $page * (int) $result['per_page']);
                 <?php if ($n === $page): ?>
                     <span class="page-link is-current" aria-current="page"><?= $n ?></span>
                 <?php else: ?>
-                    <a class="page-link" href="/discover<?= e(query_with($filters, ['page' => $n])) ?>"><?= $n ?></a>
+                    <a class="page-link" href="<?= e($base . query_with($filters, ['page' => $n])) ?>"><?= $n ?></a>
                 <?php endif; ?>
             </li>
             <?php $previous = $n; ?>
@@ -61,7 +66,7 @@ $last = min((int) $result['total'], $page * (int) $result['per_page']);
 
         <li>
             <?php if ($page < $pages): ?>
-                <a class="page-link page-step" href="/discover<?= e(query_with($filters, ['page' => $page + 1])) ?>" rel="next">
+                <a class="page-link page-step" href="<?= e($base . query_with($filters, ['page' => $page + 1])) ?>" rel="next">
                     <span class="page-step-label">Next</span><i class="ti ti-chevron-right" aria-hidden="true"></i>
                 </a>
             <?php else: ?>
