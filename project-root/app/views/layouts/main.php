@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TwoThirds</title>
+    <title>South African Asset Management Company | TwoThirds</title>
     <?php require __DIR__ . '/../partials/_brand-head.php'; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,12 +11,20 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
     <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/app.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/app.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">
+    <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/account.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/account.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">    
+    <?php $companyCss = __DIR__ . '/../../../public_html/assets/css/company.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/company.css') ?>?v=<?= file_exists($companyCss) ? filemtime($companyCss) : time() ?>">    
     <?php $brandCss = __DIR__ . '/../../../public_html/assets/css/brand.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/brand.css') ?>?v=<?= file_exists($brandCss) ? filemtime($brandCss) : time() ?>">
     <?php $discoveryCss = __DIR__ . '/../../../public_html/assets/css/discovery.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/discovery.css') ?>?v=<?= file_exists($discoveryCss) ? filemtime($discoveryCss) : time() ?>">
     <?php $homeCss = __DIR__ . '/../../../public_html/assets/css/home.css'; ?>
     <link rel="stylesheet" href="<?= asset('css/home.css') ?>?v=<?= file_exists($homeCss) ? filemtime($homeCss) : time() ?>">
+    <?php $pagesCss = __DIR__ . '/../../../public_html/assets/css/pages.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/pages.css') ?>?v=<?= file_exists($pagesCss) ? filemtime($pagesCss) : time() ?>">
+    <?php $browseCss = __DIR__ . '/../../../public_html/assets/css/discovery-browse.css'; ?>
+    <link rel="stylesheet" href="<?= asset('css/discovery-browse.css') ?>?v=<?= file_exists($browseCss) ? filemtime($browseCss) : time() ?>">    
 </head>
 <body>
     <?php
@@ -58,6 +66,7 @@
             </div>
             <nav class="footer-links">
                 <a href="/discover">Discover</a>
+                <a href="/fees">Fees</a>
                 <a href="/login">Log in</a>
                 <a href="/register">Sign up</a>
             </nav>
