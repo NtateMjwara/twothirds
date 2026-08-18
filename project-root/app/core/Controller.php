@@ -36,4 +36,27 @@ class Controller
             exit('Invalid request.');
         }
     }
+
+    /**
+     * Queue a message to show after a redirect.
+     *
+     * Every admin write action ends in a redirect, which means the only way to
+     * report the outcome is to carry it across the request. Without this, a
+     * failed approval and a successful one look identical: the page reloads and
+     * nothing is said either way.
+     *
+     * @param string $type success|error|warning
+     */
+    protected function flash(string $type, string $message): void
+    {
+        $_SESSION['_flash'][] = ['type' => $type, 'message' => $message];
+    }
+
+    /** Read and clear. Called once per request, by the layout. */
+    public static function takeFlash(): array
+    {
+        $messages = $_SESSION['_flash'] ?? [];
+        unset($_SESSION['_flash']);
+        return $messages;
+    }
 }
