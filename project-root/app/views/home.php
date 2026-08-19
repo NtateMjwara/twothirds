@@ -26,6 +26,27 @@ $brands = [
     ['name' => 'The Courier Guy', 'file' => 'courier.jpg'],
 ];
 
+// Routes into the guide. Each href is an anchor on /how-it-works, so a visitor
+// lands on the section that answers the question rather than at the top of a
+// long page with the answer somewhere below the fold.
+$journey = [
+    [
+        'label' => 'How shares work',
+        'blurb' => 'What you own, what sets the price, and what moves it.',
+        'href'  => '/how-it-works#shares',
+    ],
+    [
+        'label' => 'How much you need to start',
+        'blurb' => 'The real entry price today, with the fee worked in.',
+        'href'  => '/how-it-works#start',
+    ],
+    [
+        'label' => 'Where my money goes',
+        'blurb' => 'How income is split between you, us, and the replacement fund.',
+        'href'  => '/how-it-works#money',
+    ],
+];
+
 // What an owner-operator carries and a shareholder doesn't.
 $handled = [
     ['icon' => 'ti-user-search',      'label' => 'Finding operators'],
@@ -42,16 +63,16 @@ $handled = [
     <div class="hero-inner">
         <div class="hero-brand">
             <p class="kicker">TwoThirds</p>
-            <p class="kicker-tag">Asset Management</p>
+            <p class="kicker-tag">Investment Management</p>
         </div>
         <div class="hero-body">
             <h1>Get Rich Slowly.</h1>
             <p class="hero-lede">
                 TwoThirds gives you the tools to build long-term wealth
                 by gradually accumulating small pieces of productive assets
-                 in South Africa.
+                across multiple industries in South Africa.
             </p>
-            <p><a href="/discover" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Explore Our Latest Offering</a></p>
+            <p><a href="/discover" class="btn"> Explore Our Latest Offering <i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></p>
         </div>
     </div>
 </section>
@@ -64,7 +85,7 @@ $handled = [
         <span class="struck">Consumption</span>. Ownership.
     </h2>
     <p class="section-lede muted">
-        Be more than just a consumer. Make small investments and own a part of the economy.
+        Live in the economy. Own a part of it.
     </p>
 
     <div class="brand-strip-wrap">
@@ -133,49 +154,60 @@ $handled = [
     </div>
 </section>
 
-<section>
-    <h2>How it works</h2>
-    <div class="card-grid">
-        <div class="card" style="width:auto; flex:1; min-width:200px;">
-            <div class="asset-icon"><i class="ti ti-list-search" aria-hidden="true"></i></div>
-            <h3>Browse</h3>
-            <p class="muted">Every company discloses its asset, financials, governance, and documents publicly.</p>
-        </div>
-        <div class="card" style="width:auto; flex:1; min-width:200px;">
-            <div class="asset-icon"><i class="ti ti-file-search" aria-hidden="true"></i></div>
-            <h3>Review</h3>
-            <p class="muted">Check the corporate record, the asset's condition, and the trading history before deciding anything.</p>
-        </div>
-        <div class="card" style="width:auto; flex:1; min-width:200px;">
-            <div class="asset-icon"><i class="ti ti-circle-check" aria-hidden="true"></i></div>
-            <h3>Commit</h3>
-            <p class="muted">Signal interest in shares. No payment is taken online - settlement is arranged and confirmed directly.</p>
-        </div>
+<!-- ============================================================
+     Start your journey
+     Three routes into the guide, each landing on the section that
+     answers that question rather than the top of the page.
+     ============================================================ -->
+<section class="journey-section">
+    <h2 class="journey-heading">Start, or continue, your investment journey</h2>
+    <p class="muted journey-sub">
+        Three things worth understanding before you put money in. Each one takes about
+        a minute to read.
+    </p>
+
+    <div class="journey-grid">
+        <?php foreach ($journey as $card): ?>
+            <a class="journey-tile" href="<?= e($card['href']) ?>">
+                <span class="journey-tile-label"><?= e($card['label']) ?></span>
+                <span class="journey-tile-blurb"><?= e($card['blurb']) ?></span>
+                <span class="journey-tile-fold" aria-hidden="true"></span>
+            </a>
+        <?php endforeach; ?>
     </div>
 </section>
 
 <?php if (!empty($featured)): ?>
-<section>
-    <h2>Recently listed</h2>
-    <div class="featured-carousel-wrap">
-        <button class="carousel-arrow carousel-prev" aria-label="Previous"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
-        <div class="featured-carousel">
-        <?php foreach ($featured as $c): ?>
-            <a href="/company/<?= e($c['reference']) ?>" class="card" style="display:block; text-decoration:none; color:inherit;">
-                <div class="card-top">
-                    <div class="asset-icon"><i class="ti ti-car" aria-hidden="true"></i></div>
+<?php
+// Exactly four. Trimmed here rather than in the controller so the section can't
+// be broken by a change to whatever HomeController happens to pass in - if it
+// sends three, the grid holds; if it sends twenty, only the newest four show.
+$recent = array_slice($featured, 0, 4);
+?>
+<section class="recent-section">
+    <div class="section-head">
+        <h2>Recently listed</h2>
+        <a class="section-action" href="/browse?sort=newest">See all offerings</a>
+    </div>
+
+    <div class="recent-grid">
+        <?php foreach ($recent as $c): ?>
+            <a href="/company/<?= e($c['reference']) ?>" class="recent-card">
+                <div class="recent-card-top">
+                    <span class="asset-icon"><i class="ti ti-car" aria-hidden="true"></i></span>
                     <span class="ref-badge"><?= e($c['reference']) ?></span>
                 </div>
-                <h3><?= e($c['name']) ?></h3>
-                <p class="muted"><?= e(trim(($c['make'] ?? '') . ' ' . ($c['model'] ?? ''))) ?><?= $c['location'] ? ' &middot; ' . e($c['location']) : '' ?></p>
-                <div class="stat">
-                    <span class="stat-value">R<?= number_format((float) $c['nav_per_share'], 2) ?></span>
-                    <span class="stat-label">NAV/share</span>
+                <h3 class="recent-name"><?= e($c['name']) ?></h3>
+                <p class="muted recent-meta">
+                    <?= e(trim(($c['make'] ?? '') . ' ' . ($c['model'] ?? ''))) ?><?php
+                    if (!empty($c['location'])): ?><br><i class="ti ti-map-pin" aria-hidden="true"></i> <?= e($c['location']) ?><?php endif; ?>
+                </p>
+                <div class="recent-price">
+                    <span class="recent-price-value">R<?= number_format((float) $c['nav_per_share'], 2) ?></span>
+                    <span class="recent-price-label">NAV / share</span>
                 </div>
             </a>
         <?php endforeach; ?>
-        </div>
-        <button class="carousel-arrow carousel-next" aria-label="Next"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
     </div>
 </section>
 <?php endif; ?>
