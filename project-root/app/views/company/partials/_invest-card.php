@@ -92,7 +92,7 @@ $ttmYield = $hasHistory ? ((float) $ttm['profit'] / $fundingTarget) * 100 : null
     <?php if (!empty($_SESSION['user_id'])): ?>
         <form method="post" action="/watchlist/<?= e($company['reference']) ?>/toggle" class="invest-watch">
             <?= csrf_field() ?>
-            <input type="hidden" name="return_to" value="/company/<?= e($company['reference']) ?>">
+            <input type="hidden" name="return_to" value="<?= e(company_url($company)) ?>">
             <button type="submit" class="btn-outline invest-watch-btn">
                 <i class="ti ti-<?= $isWatching ? 'bookmark-filled' : 'bookmark' ?>" aria-hidden="true"></i>
                 <?= $isWatching ? 'Saved to watchlist' : 'Save to watchlist' ?>
