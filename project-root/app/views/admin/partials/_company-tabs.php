@@ -15,6 +15,10 @@ $tabs = [
     'updates'    => ['label' => 'Updates',    'icon' => 'ti-timeline'],
     'financials' => ['label' => 'Financials', 'icon' => 'ti-report-money'],
     'documents'  => ['label' => 'Documents',  'icon' => 'ti-file-text'],
+    // Sits with the company's own records rather than beside the public-facing
+    // tabs: it is the one screen here that never reaches an investor's eyes
+    // except as a line on an invoice.
+    'banking'    => ['label' => 'Banking',    'icon' => 'ti-building-bank'],
     'directors'  => ['label' => 'Directors',  'icon' => 'ti-users'],
 ];
 $currentTab = $currentTab ?? '';
@@ -22,7 +26,7 @@ $currentTab = $currentTab ?? '';
 <p class="admin-breadcrumb">
     <a href="/admin/companies"><i class="ti ti-chevron-left" aria-hidden="true"></i> All companies</a>
     <span aria-hidden="true">&middot;</span>
-    <a href="/company/<?= e($company['reference']) ?>" target="_blank" rel="noopener">
+    <a href="<?= e(company_url($company)) ?>" target="_blank" rel="noopener">
         View public page <i class="ti ti-external-link" aria-hidden="true"></i>
     </a>
 </p>
