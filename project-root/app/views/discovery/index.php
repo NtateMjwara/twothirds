@@ -21,7 +21,7 @@
         in mind.
     </p>
 
-    <form method="get" action="/browse" class="discovery-search" role="search">
+    <form method="get" action="<?= e(invest_url()) ?>" class="discovery-search" role="search">
         <label for="discovery-q" class="sr-only">Search offerings</label>
         <i class="ti ti-search discovery-search-icon" aria-hidden="true"></i>
         <input type="search" id="discovery-q" name="q"
@@ -56,13 +56,13 @@
 <section class="rail-section" aria-labelledby="industry-heading">
     <div class="section-head">
         <h2 id="industry-heading">Browse by industry</h2>
-        <a class="section-action" href="/browse">See every offering</a>
+        <a class="section-action" href="<?= e(invest_url()) ?>">See every offering</a>
     </div>
 
     <div class="chip-rail" role="group" aria-label="Industries">
         <?php foreach ($sectors as $s): ?>
             <a class="rail-chip<?= (int) $s['listing_count'] === 0 ? ' is-empty' : '' ?>"
-               href="/browse/<?= e($s['slug']) ?>" title="<?= e($s['tagline'] ?? '') ?>">
+               href="<?= e(invest_url(['sector' => $s['slug']])) ?>" title="<?= e($s['tagline'] ?? '') ?>">
                 <span class="rail-chip-icon"><i class="ti <?= e($s['icon']) ?>" aria-hidden="true"></i></span>
                 <span class="rail-chip-label"><?= e($s['name']) ?></span>
                 <span class="rail-chip-count"><?= number_format((int) $s['listing_count']) ?></span>
@@ -75,7 +75,7 @@
      Two ways in for people who don't have a listing in mind
      ============================================================ -->
 <div class="prompt-row">
-    <a class="prompt-card" href="/browse?theme=newly-listed">
+    <a class="prompt-card" href="<?= e(invest_url(['theme' => 'newly-listed'])) ?>">
         <span class="prompt-icon"><i class="ti ti-compass" aria-hidden="true"></i></span>
         <span class="prompt-body">
             <span class="prompt-title">Not sure where to start?</span>
@@ -131,13 +131,13 @@
         <div class="explore-main">
             <div class="section-head">
                 <h2 id="theme-heading">Discover by theme</h2>
-                <a class="section-action" href="/browse">See all offerings</a>
+                <a class="section-action" href="<?= e(invest_url()) ?>">See all offerings</a>
             </div>
             <p class="muted section-sub">Saved searches that cut across every industry.</p>
 
             <div class="theme-grid" aria-labelledby="theme-heading">
                 <?php foreach ($themes as $slug => $theme): ?>
-                    <a class="theme-card" href="/browse?theme=<?= e($slug) ?>">
+                    <a class="theme-card" href="<?= e(invest_url(['theme' => $slug])) ?>">
                         <span class="theme-art" aria-hidden="true">
                             <i class="ti <?= e($theme['icon']) ?>"></i>
                         </span>
@@ -170,7 +170,7 @@
             <div class="pill-cloud" role="group" aria-label="Commercial activities">
                 <?php foreach ($activities as $a): ?>
                     <a class="activity-pill<?= (int) $a['listing_count'] === 0 ? ' is-empty' : '' ?>"
-                       href="/browse?activity=<?= e($a['slug']) ?>"
+                       href="<?= e(invest_url(['activity' => $a['slug']])) ?>"
                        title="<?= e($a['sector_name']) ?><?= $a['description'] ? ' — ' . e($a['description']) : '' ?>">
                         <span class="pill-icon"><i class="ti <?= e($a['icon'] ?: 'ti-briefcase') ?>" aria-hidden="true"></i></span>
                         <span class="pill-label"><?= e($a['name']) ?></span>

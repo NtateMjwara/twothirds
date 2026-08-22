@@ -1,6 +1,6 @@
 <?php
 /**
- * /browse — the result set.
+ * /discover/invest — the result set.
  *
  * Two chip rows narrow the set (industry, then activity within it), a filter
  * panel handles the rest, and the grid below is paginated. Every control writes
@@ -16,7 +16,7 @@ $activeFilterCount = count(array_filter(
     static fn ($v) => $v !== ''
 ));
 
-$paginationBase = '/browse';
+$paginationBase = '/discover/invest';
 $returnTo = $paginationBase . query_with($filters, ['page' => $result['page']]);
 
 // Reprints filter state that a link-driven control owns, so submitting a form
@@ -31,7 +31,7 @@ $carry = static function (array $keys) use ($filters): void {
 
 $heading = $activeSector['name'] ?? 'All offerings';
 ?>
-<p class="browse-back"><a href="/discover"><i class="ti ti-chevron-left" aria-hidden="true"></i> Discover</a></p>
+<?php require __DIR__ . '/../partials/_breadcrumbs.php'; ?>
 
 <section class="browse-masthead">
     <h1><?= e($heading) ?></h1>
@@ -39,7 +39,7 @@ $heading = $activeSector['name'] ?? 'All offerings';
         <p class="muted browse-tagline"><?= e($activeSector['tagline']) ?></p>
     <?php endif; ?>
 
-    <form method="get" action="/browse" class="discovery-search" role="search">
+    <form method="get" action="/discover/invest" class="discovery-search" role="search">
         <?php $carry(['sector', 'activity', 'asset_class', 'location', 'min_price', 'max_price', 'availability', 'theme', 'sort']); ?>
         <label for="browse-q" class="sr-only">Search offerings</label>
         <i class="ti ti-search discovery-search-icon" aria-hidden="true"></i>
@@ -51,29 +51,13 @@ $heading = $activeSector['name'] ?? 'All offerings';
     </form>
 </section>
 
-<!-- Industry -->
-<div class="filter-rail-group">
-    <p class="filter-rail-label">Filter by industry</p>
-    <div class="chip-rail chip-rail-compact" role="group" aria-label="Industries">
-        <a class="rail-chip<?= $filters['sector'] === '' ? ' is-active' : '' ?>"
-           href="/browse<?= e(query_with($filters, ['sector' => null, 'activity' => null, 'page' => null])) ?>">
-            <span class="rail-chip-icon"><i class="ti ti-layout-grid" aria-hidden="true"></i></span>
-            <span class="rail-chip-label">All</span>
-            <span class="rail-chip-count"><?= number_format($totalActive) ?></span>
-        </a>
-        <?php foreach ($sectors as $s): ?>
-            <a class="rail-chip<?= $filters['sector'] === $s['slug'] ? ' is-active' : '' ?><?= (int) $s['listing_count'] === 0 ? ' is-empty' : '' ?>"
-               href="/browse<?= e(query_with($filters, ['sector' => $s['slug'], 'activity' => null, 'page' => null])) ?>"
-               title="<?= e($s['tagline'] ?? '') ?>">
-                <span class="rail-chip-icon"><i class="ti <?= e($s['icon']) ?>" aria-hidden="true"></i></span>
-                <span class="rail-chip-label"><?= e($s['name']) ?></span>
-                <span class="rail-chip-count"><?= number_format((int) $s['listing_count']) ?></span>
-            </a>
-        <?php endforeach; ?>
-    </div>
-</div>
-
-<!-- Commercial activity, scoped to the chosen industry -->
+<!-- Commercial activity, scoped to the chosen industry.
+     
+     There is no industry rail here any more. The industry is chosen on
+     Discover, and repeating twelve chips at the top of every result set spent a
+     screenful re-asking a question that had already been answered. It lives in
+     the Add filter panel instead, so it can still be changed without going
+     back, and the active-filter chip below still removes it in one click. -->
 <?php if (!empty($activities)): ?>
 <div class="filter-rail-group">
     <p class="filter-rail-label">
@@ -84,12 +68,12 @@ $heading = $activeSector['name'] ?? 'All offerings';
     </p>
     <div class="pill-cloud pill-cloud-inline" role="group" aria-label="Commercial activities">
         <a class="activity-pill<?= $filters['activity'] === '' ? ' is-active' : '' ?>"
-           href="/browse<?= e(query_with($filters, ['activity' => null, 'page' => null])) ?>">
+           href="/discover/invest<?= e(query_with($filters, ['activity' => null, 'page' => null])) ?>">
             <span class="pill-label">All activities</span>
         </a>
         <?php foreach ($activities as $a): ?>
             <a class="activity-pill<?= $filters['activity'] === $a['slug'] ? ' is-active' : '' ?><?= (int) $a['listing_count'] === 0 ? ' is-empty' : '' ?>"
-               href="/browse<?= e(query_with($filters, ['activity' => $a['slug'], 'page' => null])) ?>"
+               href="/discover/invest<?= e(query_with($filters, ['activity' => $a['slug'], 'page' => null])) ?>"
                title="<?= e($a['description'] ?? '') ?>">
                 <span class="pill-icon"><i class="ti <?= e($a['icon'] ?: 'ti-briefcase') ?>" aria-hidden="true"></i></span>
                 <span class="pill-label"><?= e($a['name']) ?></span>
@@ -112,47 +96,47 @@ $heading = $activeSector['name'] ?? 'All offerings';
         <?php if ($activeFilterCount): ?>
             <div class="active-filter-chips">
                 <?php if ($filters['q'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['q' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['q' => null, 'page' => null])) ?>">
                         &ldquo;<?= e($filters['q']) ?>&rdquo; <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($activeSector): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['sector' => null, 'activity' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['sector' => null, 'activity' => null, 'page' => null])) ?>">
                         <i class="ti <?= e($activeSector['icon']) ?>" aria-hidden="true"></i> <?= e($activeSector['name']) ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['activity'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['activity' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['activity' => null, 'page' => null])) ?>">
                         <?= e(str_replace('-', ' ', $filters['activity'])) ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['asset_class'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['asset_class' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['asset_class' => null, 'page' => null])) ?>">
                         <?= e(str_replace('-', ' ', $filters['asset_class'])) ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['location'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['location' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['location' => null, 'page' => null])) ?>">
                         <i class="ti ti-map-pin" aria-hidden="true"></i> <?= e($filters['location']) ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['theme'] !== '' && isset($themes[$filters['theme']])): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['theme' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['theme' => null, 'page' => null])) ?>">
                         <?= e($themes[$filters['theme']]['label']) ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['availability'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['availability' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['availability' => null, 'page' => null])) ?>">
                         <?= $filters['availability'] === 'open' ? 'Open to invest' : 'Fully subscribed' ?> <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
                 <?php if ($filters['min_price'] !== '' || $filters['max_price'] !== ''): ?>
-                    <a class="chip" href="/browse<?= e(query_with($filters, ['min_price' => null, 'max_price' => null, 'page' => null])) ?>">
+                    <a class="chip" href="/discover/invest<?= e(query_with($filters, ['min_price' => null, 'max_price' => null, 'page' => null])) ?>">
                         R<?= e($filters['min_price'] !== '' ? $filters['min_price'] : '0') ?>&ndash;<?= $filters['max_price'] !== '' ? 'R' . e($filters['max_price']) : '&infin;' ?>
                         <i class="ti ti-x" aria-hidden="true"></i>
                     </a>
                 <?php endif; ?>
-                <a class="chip chip-clear" href="/browse">Clear all</a>
+                <a class="chip chip-clear" href="/discover/invest">Clear all</a>
             </div>
         <?php else: ?>
             <span class="muted filter-bar-empty">Nothing applied &mdash; showing every live offering.</span>
@@ -164,8 +148,24 @@ $heading = $activeSector['name'] ?? 'All offerings';
                 <i class="ti ti-chevron-down" aria-hidden="true"></i>
             </summary>
 
-            <form method="get" action="/browse" class="add-filter-panel">
-                <?php $carry(['q', 'sector', 'activity', 'theme', 'sort']); ?>
+            <form method="get" action="/discover/invest" class="add-filter-panel">
+                <?php $carry(['q', 'activity', 'theme', 'sort']); ?>
+
+                <div class="filter-group">
+                    <label for="f-sector">Industry</label>
+                    <select id="f-sector" name="sector">
+                        <option value="">All industries</option>
+                        <?php foreach ($sectors as $sector): ?>
+                            <option value="<?= e($sector['slug']) ?>"<?= $filters['sector'] === $sector['slug'] ? ' selected' : '' ?>>
+                                <?= e($sector['name']) ?> (<?= (int) $sector['listing_count'] ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <p class="muted small-note">
+                        Usually chosen on Discover. Change it here to look somewhere else
+                        without going back.
+                    </p>
+                </div>
 
                 <div class="filter-group">
                     <span class="filter-group-label">Availability</span>
@@ -222,7 +222,7 @@ $heading = $activeSector['name'] ?? 'All offerings';
                 <div class="add-filter-actions">
                     <button type="submit" class="btn">Apply filters</button>
                     <?php if ($activeFilterCount): ?>
-                        <a href="/browse" class="link-button-plain">Clear everything</a>
+                        <a href="/discover/invest" class="link-button-plain">Clear everything</a>
                     <?php endif; ?>
                 </div>
             </form>
@@ -239,7 +239,7 @@ $heading = $activeSector['name'] ?? 'All offerings';
         offering<?= (int) $result['total'] === 1 ? '' : 's' ?><?= $activeSector ? ' in ' . e($activeSector['name']) : '' ?>
     </p>
 
-    <form method="get" action="/browse" class="sort-form">
+    <form method="get" action="/discover/invest" class="sort-form">
         <?php $carry(['q', 'sector', 'activity', 'asset_class', 'location', 'min_price', 'max_price', 'availability', 'theme']); ?>
         <label for="f-sort" class="sort-label">Sort by</label>
         <select id="f-sort" name="sort" onchange="this.form.submit()">
@@ -263,7 +263,7 @@ $heading = $activeSector['name'] ?? 'All offerings';
                 Widen the price range or drop a filter to see more.
             <?php endif; ?>
             <?php if ($activeFilterCount): ?>
-                You can also <a href="/browse">clear everything</a> or go back to
+                You can also <a href="/discover/invest">clear everything</a> or go back to
                 <a href="/discover">Discover</a>.
             <?php endif; ?>
         </p>
