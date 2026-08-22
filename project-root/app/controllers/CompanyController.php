@@ -12,18 +12,36 @@ use app\models\Document;
 use app\models\CompanyDirector;
 use app\models\Watchlist;
 use app\services\CompanyService;
+use app\services\CompanySlug;
 use app\services\OfferWindow;
 
 class CompanyController extends Controller
 {
-    public function show(string $reference): void
+    /**
+     * /discover/invest/{slug}
+     *
+     * The slug's trailing reference is what resolves; the name in front is
+     * decoration. So a link shared before a company was renamed still lands on
+     * the right page - and is then redirected to the current canonical slug, so
+     * search engines settle on one URL rather than indexing several.
+     */
+    public function show(string $slug): void
     {
-        $company = Company::findByReference($reference);
+        $reference = CompanySlug::referenceFrom($slug);
+        $company = $reference ? Company::findByReference($reference) : null;
 
         if (!$company) {
             http_response_code(404);
             $this->render('errors/404');
             return;
+        }
+
+        if (!CompanySlug::isCanonical($slug, $company['name'], $company['reference'])) {
+            // 301, not 302: the canonical form is permanent, and a temporary
+            // redirect would leave the old URL in the index indefinitely.
+            http_response_code(301);
+            header('Location: ' . company_url($company));
+            exit;
         }
 
         $companyId = (int) $company['id'];
@@ -48,12 +66,15 @@ class CompanyController extends Controller
                                  && Watchlist::isWatching((int) $_SESSION['user_id'], $companyId),
             'sharesAvailable' => $sharesAvailable,
             'sharesTaken'     => $taken,
-            // Expressed in rands as well as shares: "R2.1m of R5.4m" is easier to
-            // hold in your head than "4,100 of 10,000 shares".
             'fundingTarget'   => $issued * (float) $company['nav_per_share'],
             'fundedValue'     => $taken * (float) $company['nav_per_share'],
             'fundedPct'       => $issued > 0 ? min(100, round(($taken / $issued) * 100)) : 0,
             'offer'           => OfferWindow::for($company, $sharesAvailable),
+            'crumbs'          => [
+                ['label' => 'Discover', 'href' => '/discover'],
+                ['label' => 'Invest',   'href' => invest_url()],
+                ['label' => $company['name'], 'href' => null],
+            ],
         ]);
     }
 }

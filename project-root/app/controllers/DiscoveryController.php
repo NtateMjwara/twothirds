@@ -42,21 +42,18 @@ class DiscoveryController extends Controller
     }
 
     /**
-     * /browse and /browse/{sector} — the result set.
+     * /discover/invest — the result set.
      *
-     * The sector may arrive in the path or the query string. The path form
-     * exists so an industry page is a shareable, indexable URL rather than a
-     * query string someone has to construct.
+     * The sector is a query parameter now rather than a path segment. It has to
+     * be: /discover/invest/{slug} is the company page, so /discover/invest/mobility
+     * would be ambiguous with a company whose slug happened to look like a
+     * sector name.
      */
-    public function browse(?string $sector = null): void
+    public function browse(): void
     {
         $filters = [];
         foreach (DiscoveryService::emptyFilters() as $key => $default) {
             $filters[$key] = trim((string) ($_GET[$key] ?? $default));
-        }
-
-        if ($sector !== null && $sector !== '') {
-            $filters['sector'] = $sector;
         }
 
         // An unknown theme or sort should show everything rather than nothing.
@@ -93,6 +90,16 @@ class DiscoveryController extends Controller
             'sortOptions'  => DiscoveryService::sortOptions(),
             'totalActive'  => DiscoveryService::activeListingCount(),
             'watchedIds'   => $userId ? Watchlist::companyIdsForUser($userId) : [],
+            'crumbs'       => [
+                ['label' => 'Discover', 'href' => '/discover'],
+                // The industry, when one is chosen, is a state of this page
+                // rather than a level of its own - so it reads as
+                // "Invest — Freight & Logistics" instead of adding a rung
+                // nobody can navigate back to.
+                ['label' => $activeSector
+                    ? 'Invest — ' . $activeSector['name']
+                    : 'Invest', 'href' => null],
+            ],
         ]);
     }
 }

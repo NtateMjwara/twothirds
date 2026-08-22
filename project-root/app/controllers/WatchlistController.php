@@ -28,7 +28,7 @@ class WatchlistController extends Controller
             Watchlist::create(['user_id' => $userId, 'company_id' => $companyId]);
         }
 
-        $this->redirect($this->safeReturnPath('/company/' . $company['reference']));
+        $this->redirect($this->safeReturnPath(company_url($company)));
     }
 
     /**

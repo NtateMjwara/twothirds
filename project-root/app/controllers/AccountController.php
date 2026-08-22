@@ -15,6 +15,8 @@ use app\models\UserBankAccount;
 use app\models\Notification;
 use app\models\Watchlist;
 use app\services\KycService;
+use app\services\PortfolioService;
+use app\services\DiscoveryService;
 use app\services\ProfileOptions;
 
 class AccountController extends Controller
@@ -27,9 +29,26 @@ class AccountController extends Controller
     {
         $this->requireAuth();
 
+        $userId = (int) $_SESSION['user_id'];
+
+        // Holdings are aggregated per company rather than per ledger row: the
+        // share register is append-only, so one company can be several rows and
+        // the investor should see one line.
+        $holdings = PortfolioService::holdings($userId);
+
         $this->render('account/portfolio', [
-            'holdings' => Shareholding::forUser((int) $_SESSION['user_id']),
-            'pending'  => Commitment::pendingForUser((int) $_SESSION['user_id']),
+            'holdings'   => $holdings,
+            'totals'     => PortfolioService::totals($holdings),
+            'allocation' => PortfolioService::allocation($holdings),
+            'income'     => PortfolioService::attributableIncome($userId, $holdings),
+            'pending'    => Commitment::pendingForUser($userId),
+            // Gives the empty state somewhere concrete to send someone, and the
+            // rail a live number rather than a static "browse" link.
+            'openOfferings' => DiscoveryService::listings(
+                ['availability' => 'open'] + DiscoveryService::emptyFilters(),
+                1,
+                1
+            )['total'],
         ]);
     }
 
