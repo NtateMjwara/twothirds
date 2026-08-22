@@ -3,56 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>South African Asset Management Company | TwoThirds</title>
+    <title>Investment Management & Financial Services | TwoThirds</title>
     <?php require __DIR__ . '/../partials/_brand-head.php'; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&family=Marcellus&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
-    <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/app.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/app.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">
-    <?php $cssPath = __DIR__ . '/../../../public_html/assets/css/account.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/account.css') ?>?v=<?= file_exists($cssPath) ? filemtime($cssPath) : time() ?>">    
-    <?php $companyCss = __DIR__ . '/../../../public_html/assets/css/company.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/company.css') ?>?v=<?= file_exists($companyCss) ? filemtime($companyCss) : time() ?>">    
-    <?php $brandCss = __DIR__ . '/../../../public_html/assets/css/brand.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/brand.css') ?>?v=<?= file_exists($brandCss) ? filemtime($brandCss) : time() ?>">
-    <?php $discoveryCss = __DIR__ . '/../../../public_html/assets/css/discovery.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/discovery.css') ?>?v=<?= file_exists($discoveryCss) ? filemtime($discoveryCss) : time() ?>">
-    <?php $homeCss = __DIR__ . '/../../../public_html/assets/css/home.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/home.css') ?>?v=<?= file_exists($homeCss) ? filemtime($homeCss) : time() ?>">
-    <?php $pagesCss = __DIR__ . '/../../../public_html/assets/css/pages.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/pages.css') ?>?v=<?= file_exists($pagesCss) ? filemtime($pagesCss) : time() ?>">
-    <?php $browseCss = __DIR__ . '/../../../public_html/assets/css/discovery-browse.css'; ?>
-    <link rel="stylesheet" href="<?= asset('css/discovery-browse.css') ?>?v=<?= file_exists($browseCss) ? filemtime($browseCss) : time() ?>">    
+    <?php
+    /*
+     * One loop rather than a dozen near-identical blocks.
+     *
+     * ORDER IS LOAD ORDER. Each sheet may override the one before it, so this
+     * list is a cascade, not a set - which is why it can't be replaced with a
+     * glob of the directory.
+     *
+     * Two rules that have already been broken once:
+     *   - cards.css must come AFTER discovery.css. It resets
+     *     .offering-card-link's padding to 0 and positions the cover overlays;
+     *     load it first and the card renders with the reference badge and
+     *     sector chip flowing below the photograph instead of on it.
+     *   - Anything new goes in this list. A stylesheet that exists on disk but
+     *     isn't named here is silently ignored, and the page renders half-styled
+     *     with nothing to indicate why. tools/preflight.php checks for exactly
+     *     that.
+     */
+    $stylesheets = [
+        'app.css',
+        'brand.css',
+        'nav.css',
+        'breadcrumbs.css',
+        'home.css',
+        'pages.css',
+        'discovery.css',
+        'cards.css',        // after discovery.css - see above
+        'company.css',
+        'account.css',
+        'portfolio.css',
+    ];
+    foreach ($stylesheets as $sheet):
+        $sheetPath = __DIR__ . '/../../../public_html/assets/css/' . $sheet;
+        if (!file_exists($sheetPath)) { continue; }
+    ?>
+    <link rel="stylesheet" href="<?= asset('css/' . $sheet) ?>?v=<?= filemtime($sheetPath) ?>">
+    <?php endforeach; ?>
 </head>
 <body>
-    <?php
-    use app\models\Notification;
-    $unreadCount = !empty($_SESSION['user_id']) ? Notification::unreadCount((int) $_SESSION['user_id']) : 0;
-    ?>
-    <header class="site-header">
-        <div class="site-header-inner">
-            <?php $brandHref = '/'; $brandTag = ''; require __DIR__ . '/../partials/_brand-lockup.php'; ?>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="siteNav">
-                <i class="ti ti-menu-2" aria-hidden="true"></i>
-            </button>
-            <nav class="site-nav" id="siteNav">
-                <a href="/discover"><i class="ti ti-search" aria-hidden="true"></i> Discover</a>
-                <?php if (!empty($_SESSION['user_id'])): ?>
-                    <a href="/account/watchlist"><i class="ti ti-bookmark" aria-hidden="true"></i> Watchlist</a>
-                    <a href="/account/portfolio"><i class="ti ti-briefcase" aria-hidden="true"></i> Portfolio</a>
-                    <a href="/account/notifications"><i class="ti ti-bell" aria-hidden="true"></i> Notifications<?= $unreadCount > 0 ? " ({$unreadCount})" : '' ?></a>
-                    <a href="/logout"><i class="ti ti-logout" aria-hidden="true"></i> Log out</a>
-                <?php else: ?>
-                    <a href="/login"><i class="ti ti-login" aria-hidden="true"></i> Log in</a>
-                    <a href="/register" class="btn"><i class="ti ti-user-plus" aria-hidden="true"></i> Sign up</a>
-                <?php endif; ?>
-            </nav>
-        </div>
-    </header>
+    <?php require __DIR__ . '/../partials/_site-nav.php'; ?>
 
-    <main class="site-main">
+    <main class="site-main" id="main">
         <?= $content ?>
     </main>
 
@@ -64,11 +62,12 @@
                     A public record of companies that own real, income-producing assets.
                 </p>
             </div>
-            <nav class="footer-links">
+            <nav class="footer-links" aria-label="Footer">
                 <a href="/discover">Discover</a>
+                <a href="<?= e(invest_url()) ?>">Offerings</a>
+                <a href="/how-it-works">How it works</a>
                 <a href="/fees">Fees</a>
                 <a href="/login">Log in</a>
-                <a href="/register">Sign up</a>
             </nav>
         </div>
         <div class="footer-bottom">
@@ -76,7 +75,7 @@
         </div>
     </footer>
 
-    <script src="/assets/js/nav-toggle.js"></script>
-    <script src="/assets/js/carousel.js"></script>
+    <script src="/assets/js/site-nav.js" defer></script>
+    <script src="/assets/js/carousel.js" defer></script>
 </body>
 </html>

@@ -31,7 +31,18 @@ foreach ($navItems as $item) {
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Playfair+Display:ital,wght@1,600&family=Marcellus&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.46.0/dist/tabler-icons.min.css">
     <?php
-    $stylesheets = ['app.css', 'brand.css', 'company.css', 'admin.css'];
+    /*
+     * Order is load order - see the note in main.php. admin-forms.css carries
+     * the field grid and the stepped SPV form, so the create and edit screens
+     * render as an unstyled column of inputs without it.
+     */
+    $stylesheets = [
+        'app.css',
+        'brand.css',
+        'company.css',      // the admin gallery styles live here
+        'admin.css',
+        'admin-forms.css',  // field grid, wizard, save bar
+    ];
     foreach ($stylesheets as $sheet):
         $sheetPath = __DIR__ . '/../../../public_html/assets/css/' . $sheet;
     ?>
