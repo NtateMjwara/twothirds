@@ -34,7 +34,7 @@ if (count($points) >= 2) {
 
 $trendClass = $change === null ? 'is-flat' : ($change >= 0 ? 'is-up' : 'is-down');
 ?>
-<a href="/company/<?= e($w['reference']) ?>" class="snapshot-card">
+<a href="<?= e(company_url($w)) ?>" class="snapshot-card">
     <div class="snapshot-head">
         <div class="snapshot-identity">
             <span class="snapshot-icon"><i class="ti <?= e($w['sector_icon'] ?: 'ti-car') ?>" aria-hidden="true"></i></span>

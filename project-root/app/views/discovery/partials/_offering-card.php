@@ -3,6 +3,10 @@
  * One listing in the discovery grid.
  *
  * Expects: $c (listing row), $watchedIds (company id => anything), $returnTo (string).
+ * Optional: $c['cover_path'] - a photograph of the asset, used as the card's
+ * hero. Where there isn't one the header falls back to a graphite panel with the
+ * asset-class icon, so the grid stays even rather than some cards being shorter
+ * than others.
  * The save control is a form rather than a link because it writes, and it sits
  * outside the card's own <a> because a button inside a link is invalid markup
  * and unusable with a keyboard.
@@ -14,18 +18,29 @@ $vehicle = trim(((string) ($c['make'] ?? '')) . ' ' . ((string) ($c['model'] ?? 
 $signedIn = !empty($_SESSION['user_id']);
 ?>
 <article class="offering-card<?= $available === 0 ? ' is-subscribed' : '' ?>">
-    <a href="/company/<?= e($c['reference']) ?>" class="offering-card-link">
-        <div class="offering-card-top">
-            <div class="asset-icon"><i class="ti <?= e($c['asset_icon'] ?: 'ti-car') ?>" aria-hidden="true"></i></div>
-            <span class="ref-badge"><?= e($c['reference']) ?></span>
+    <a href="<?= e(company_url($c)) ?>" class="offering-card-link">
+        <div class="offering-cover<?= empty($c['cover_path']) ? ' is-empty' : '' ?>">
+            <?php if (!empty($c['cover_path'])): ?>
+                <img src="/uploads/assets/<?= e($c['cover_path']) ?>"
+                     alt="<?= e($c['cover_caption'] ?: ($vehicle !== '' ? $vehicle : $c['name'])) ?>"
+                     loading="lazy" width="400" height="220">
+            <?php else: ?>
+                <span class="cover-fallback" aria-hidden="true">
+                    <i class="ti <?= e($c['asset_icon'] ?: 'ti-car') ?>"></i>
+                </span>
+            <?php endif; ?>
+
+            <span class="ref-badge cover-ref"><?= e($c['reference']) ?></span>
+
+            <?php if (!empty($c['sector_name'])): ?>
+                <span class="cover-sector">
+                    <i class="ti <?= e($c['sector_icon'] ?: 'ti-briefcase') ?>" aria-hidden="true"></i>
+                    <?= e($c['sector_name']) ?>
+                </span>
+            <?php endif; ?>
         </div>
 
-        <?php if (!empty($c['sector_name'])): ?>
-            <p class="offering-sector">
-                <i class="ti <?= e($c['sector_icon'] ?: 'ti-briefcase') ?>" aria-hidden="true"></i>
-                <?= e($c['sector_name']) ?>
-            </p>
-        <?php endif; ?>
+        <div class="offering-card-body">
 
         <h3 class="offering-name"><?= e($c['name']) ?></h3>
 
@@ -73,6 +88,7 @@ $signedIn = !empty($_SESSION['user_id']);
                 <span class="offering-flag"><i class="ti ti-report-money" aria-hidden="true"></i> Trading</span>
             <?php endif; ?>
         </p>
+        </div>
     </a>
 
     <?php if ($signedIn): ?>
