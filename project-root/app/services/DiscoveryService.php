@@ -2,6 +2,7 @@
 namespace app\services;
 
 use app\core\Database;
+use app\models\AssetImage;
 
 /**
  * Everything the /discover page needs to read.
@@ -167,12 +168,37 @@ class DiscoveryService
         $stmt->execute($params);
 
         return [
-            'rows'     => $stmt->fetchAll(),
+            'rows'     => self::attachCovers($stmt->fetchAll()),
             'total'    => $total,
             'page'     => $page,
             'pages'    => $pages,
             'per_page' => $perPage,
         ];
+    }
+
+    /**
+     * Adds each listing's cover photograph.
+     *
+     * One query for the whole page rather than one per card - a page of twelve
+     * cards was otherwise twelve extra round trips for what is decoration on a
+     * grid that is already paginated.
+     */
+    private static function attachCovers(array $rows): array
+    {
+        if ($rows === []) {
+            return $rows;
+        }
+
+        $covers = AssetImage::primariesFor(array_column($rows, 'id'));
+
+        foreach ($rows as &$row) {
+            $cover = $covers[(int) $row['id']] ?? null;
+            $row['cover_path'] = $cover['file_path'] ?? null;
+            $row['cover_caption'] = $cover['caption'] ?? null;
+        }
+        unset($row);
+
+        return $rows;
     }
 
     // Whitelisted. Never interpolate the raw sort value into SQL.
