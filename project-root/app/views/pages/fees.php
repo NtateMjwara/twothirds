@@ -208,6 +208,6 @@ $fees = [
             Every live offering publishes its asset, its operator and every trading period it
             has filed.
         </p>
-        <p><a href="/discover" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Browse live offerings</a></p>
+        <p><a href="<?= e(invest_url()) ?>" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Browse live offerings</a></p>
     </div>
 </section>

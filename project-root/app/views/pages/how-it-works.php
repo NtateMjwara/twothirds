@@ -576,7 +576,7 @@ $contents = [
         <div class="chip-rail" role="group" aria-label="Industries">
             <?php foreach ($sectors as $s): ?>
                 <a class="rail-chip<?= (int) $s['listing_count'] === 0 ? ' is-empty' : '' ?>"
-                   href="/browse/<?= e($s['slug']) ?>" title="<?= e($s['tagline'] ?? '') ?>">
+                   href="<?= e(invest_url(['sector' => $s['slug']])) ?>" title="<?= e($s['tagline'] ?? '') ?>">
                     <span class="rail-chip-icon"><i class="ti <?= e($s['icon']) ?>" aria-hidden="true"></i></span>
                     <span class="rail-chip-label"><?= e($s['name']) ?></span>
                     <span class="rail-chip-count"><?= number_format((int) $s['listing_count']) ?></span>
@@ -591,7 +591,7 @@ $contents = [
                 Every one publishes its asset, its operator and every trading period it has filed.
             </p>
             <p>
-                <a href="/browse" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Browse offerings</a>
+                <a href="<?= e(invest_url()) ?>" class="btn"><i class="ti ti-search" aria-hidden="true"></i> Browse offerings</a>
                 <a href="/fees" class="btn-outline">See the fees</a>
             </p>
         </div>
