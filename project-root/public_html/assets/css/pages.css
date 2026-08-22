@@ -1,0 +1,576 @@
+/* ============================================================
+   Static content pages
+   Loaded after app.css. Builds on the section furniture already
+   defined in discovery.css (.discovery-masthead, .rail-section,
+   .section-head), so this file only carries what's new.
+   ============================================================ */
+
+.fee-lede { max-width: 66ch; margin-bottom: 1.5rem; }
+.fee-footnote { max-width: 66ch; font-size: 0.88rem; margin-top: 1.25rem; }
+
+/* ------------------------------------------------------------
+   Fee cards
+   ------------------------------------------------------------ */
+.fee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.fee-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.fee-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-10);
+    color: var(--accent-ink);
+    font-size: 1.2rem;
+    margin-bottom: 0.9rem;
+}
+
+/* The rate is the thing people came for, so it gets the size and the mono face
+   the rest of the platform uses for figures. */
+.fee-rate {
+    font-family: var(--font-mono);
+    font-size: 2.4rem;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0 0 0.2rem;
+    color: var(--ink);
+}
+.fee-name { margin: 0 0 0.15rem; font-size: 1.05rem; }
+.fee-base { font-size: 0.85rem; margin: 0 0 0.75rem; }
+
+.fee-when {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    align-self: flex-start;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--road);
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-radius: 4px;
+    padding: 3px 8px;
+    margin: 0 0 0.9rem;
+}
+
+.fee-blurb { font-size: 0.9rem; line-height: 1.55; margin: 0; }
+
+.fee-note {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin: 0.9rem 0 0;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--road-15);
+    color: var(--success);
+}
+
+/* ------------------------------------------------------------
+   Profit split bar
+   ------------------------------------------------------------ */
+.split-bar {
+    display: flex;
+    height: 54px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--road-15);
+}
+.split-seg {
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    padding: 0 6px;
+}
+.split-seg-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.split-shareholders { background: var(--ink); color: #fff; }
+.split-performance  { background: var(--accent); color: var(--ink); }
+/* The replacement fund is shown in the success green used elsewhere for money
+   that stays with the company, not the accent used for money we take. */
+.split-arf { background: var(--success); color: #fff; }
+
+.split-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    font-size: 0.88rem;
+}
+.split-key li { display: flex; align-items: center; gap: 8px; }
+.key-dot { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; }
+.key-shareholders { background: var(--ink); }
+.key-performance  { background: var(--accent); }
+.key-arf          { background: var(--success); }
+
+/* ------------------------------------------------------------
+   Worked example
+   ------------------------------------------------------------ */
+.worked-example {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.25rem;
+}
+.example-block {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 1.4rem;
+}
+.example-block h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+.example-step {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+}
+
+.fee-table { width: 100%; border-collapse: collapse; }
+.fee-table th,
+.fee-table td {
+    padding: 9px 0;
+    text-align: left;
+    font-weight: 400;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--road-15);
+}
+.fee-table td {
+    text-align: right;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+}
+.fee-table tr:last-child th,
+.fee-table tr:last-child td { border-bottom: none; }
+
+/* Money leaving reads red, money held back reads green — the same distinction
+   the fee cards make, carried into the arithmetic. */
+.fee-table .is-out  { color: var(--danger); }
+.fee-table .is-held { color: var(--success); }
+
+.fee-table .is-subtotal th,
+.fee-table .is-subtotal td,
+.fee-table .is-total th,
+.fee-table .is-total td {
+    font-weight: 600;
+    color: var(--ink);
+}
+.fee-table .is-total th,
+.fee-table .is-total td {
+    border-top: 2px solid var(--ink);
+    padding-top: 11px;
+}
+
+.example-note { font-size: 0.82rem; margin: 0.9rem 0 0; }
+
+/* ------------------------------------------------------------
+   Q&A
+   ------------------------------------------------------------ */
+.fee-qa { max-width: 780px; }
+.fee-qa details {
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    background: var(--surface);
+    margin-bottom: 10px;
+}
+.fee-qa summary {
+    cursor: pointer;
+    padding: 0.95rem 1.15rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.fee-qa summary::-webkit-details-marker { display: none; }
+.fee-qa summary::after {
+    content: "\\002B";
+    font-family: var(--font-mono);
+    color: var(--road);
+    flex: 0 0 auto;
+}
+.fee-qa details[open] summary::after { content: "\\2212"; }
+.fee-qa details[open] summary { border-bottom: 1px solid var(--road-15); }
+.fee-qa p {
+    margin: 0;
+    padding: 1rem 1.15rem 1.15rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+}
+
+/* ------------------------------------------------------------
+   Closing call to action
+   ------------------------------------------------------------ */
+.fee-cta {
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 2.5rem 1.5rem;
+}
+.fee-cta h2 { margin-top: 0; }
+.fee-cta p { max-width: 52ch; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 600px) {
+    .fee-rate { font-size: 2rem; }
+    /* Below about 380px the 15% segment can't hold its label, so the key
+       underneath carries the meaning instead. */
+    .split-seg-label { font-size: 0.7rem; }
+    .split-arf .split-seg-label { display: none; }
+}
+
+/* ============================================================
+   Long-form guide (how it works)
+   ============================================================ */
+
+.guide-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 240px) 1fr;
+    gap: clamp(1.5rem, 5vw, 3.5rem);
+    align-items: start;
+    margin-top: 1rem;
+}
+
+/* The page is long enough that a reader needs to know its shape before
+   committing to it, and be able to jump back to a term they half-remember. */
+.guide-toc {
+    position: sticky;
+    top: 84px;
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.guide-toc-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
+.guide-toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: toc;
+}
+.guide-toc li { counter-increment: toc; }
+.guide-toc a {
+    display: flex;
+    gap: 9px;
+    padding: 6px 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-decoration: none;
+    color: var(--ink-muted);
+}
+.guide-toc a::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--road-30);
+    flex: 0 0 auto;
+    padding-top: 1px;
+}
+.guide-toc a:hover { color: var(--ink); }
+.guide-toc-foot { margin: 0.9rem 0 0; font-size: 0.75rem; }
+
+.guide-body { min-width: 0; }
+
+.guide-section {
+    padding-top: 2.5rem;
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--road-15);
+    /* Anchor links land under the sticky header without this. */
+    scroll-margin-top: 84px;
+}
+.guide-section:first-child { padding-top: 0; margin-top: 0; border-top: none; }
+.guide-section h2 { margin-top: 0; }
+.guide-section h3 { margin-top: 2rem; }
+.guide-section p { max-width: 68ch; line-height: 1.7; }
+
+/* The opening sentence of a section, set slightly larger - it carries the point
+   for anyone skimming rather than reading. */
+.guide-lead { font-size: 1.05rem; line-height: 1.65; }
+
+/* ------------------------------------------------------------
+   Flow diagram
+   ------------------------------------------------------------ */
+.flow-diagram {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    margin: 1.75rem 0;
+    padding: 1.25rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    overflow-x: auto;
+}
+.flow-step {
+    flex: 1 1 0;
+    min-width: 140px;
+    text-align: center;
+    padding: 0.5rem;
+}
+.flow-icon {
+    display: grid;
+    place-items: center;
+    width: 44px; height: 44px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    color: var(--accent-ink);
+    font-size: 1.25rem;
+}
+.flow-label { margin: 0; font-size: 0.88rem; font-weight: 600; max-width: none; }
+.flow-note { margin: 3px 0 0; font-size: 0.76rem; line-height: 1.4; max-width: none; }
+.flow-arrow {
+    display: grid;
+    place-items: center;
+    color: var(--road-30);
+    flex: 0 0 auto;
+}
+
+/* ------------------------------------------------------------
+   Callouts
+   ------------------------------------------------------------ */
+.callout {
+    display: flex;
+    gap: 12px;
+    margin: 1.75rem 0;
+    padding: 1.1rem 1.25rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--road-15);
+}
+.callout > i { font-size: 1.2rem; flex: 0 0 auto; }
+.callout p { margin: 0; font-size: 0.9rem; line-height: 1.6; max-width: 62ch; }
+.callout-plain { background: var(--paper); border-left: 3px solid var(--accent); }
+.callout-plain > i { color: var(--accent-ink); }
+/* The risk disclaimer gets weight the informational callouts don't - it is the
+   one box on the page a reader should not skim. */
+.callout-warn {
+    background: rgba(178, 46, 46, 0.06);
+    border-color: rgba(178, 46, 46, 0.25);
+    border-left: 3px solid var(--danger);
+}
+.callout-warn > i { color: var(--danger); }
+
+/* ------------------------------------------------------------
+   Term cards
+   ------------------------------------------------------------ */
+.term-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.term-card {
+    padding: 1.35rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.term-icon {
+    display: grid;
+    place-items: center;
+    width: 40px; height: 40px;
+    margin-bottom: 0.9rem;
+    border-radius: 50%;
+    background: var(--accent-10);
+    color: var(--accent-ink);
+    font-size: 1.2rem;
+}
+.term-card h3 { margin: 0 0 0.5rem; font-size: 1rem; }
+.term-card p { font-size: 0.88rem; line-height: 1.6; margin-bottom: 0.75rem; }
+/* Every definition gets a one-line translation. The formal wording has to be
+   there for accuracy; this is the version someone remembers. */
+.term-plain {
+    margin: 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--road-15);
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+}
+
+/* ------------------------------------------------------------
+   Formula
+   ------------------------------------------------------------ */
+.formula {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.formula-part {
+    padding: 8px 14px;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.formula-part.is-result {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+}
+.formula-op { font-family: var(--font-mono); color: var(--road); font-size: 1.1rem; }
+
+/* ------------------------------------------------------------
+   Own / don't own
+   ------------------------------------------------------------ */
+.two-col-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+.two-col-list > div {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.col-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 0.75rem;
+    font-weight: 600;
+    font-size: 0.92rem;
+}
+.do-own .col-title { color: var(--success); }
+.dont-own .col-title { color: var(--danger); }
+.two-col-list ul { margin: 0; padding-left: 1.1rem; }
+.two-col-list li { font-size: 0.88rem; line-height: 1.55; margin-bottom: 0.5rem; }
+
+.reason-list { padding-left: 1.1rem; }
+.reason-list li { font-size: 0.92rem; line-height: 1.65; margin-bottom: 0.75rem; max-width: 66ch; }
+
+/* ------------------------------------------------------------
+   Entry price
+   ------------------------------------------------------------ */
+.price-highlight {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    text-align: center;
+    background: linear-gradient(160deg, #4A515C, #2B3038);
+    border-radius: var(--radius);
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+.price-highlight-label {
+    margin: 0 0 0.4rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: none;
+}
+.price-highlight-value {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(2rem, 6vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1;
+    max-width: none;
+}
+.price-highlight-note {
+    margin: 0.75rem auto 0;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.72) !important;
+    max-width: 46ch;
+}
+.price-highlight.is-empty .price-highlight-label { margin-bottom: 0; }
+
+.start-table { max-width: 460px; margin-top: 1rem; }
+.start-table .is-out { color: var(--ink); }
+
+/* ------------------------------------------------------------
+   Risks
+   ------------------------------------------------------------ */
+.risk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+.risk-card {
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-left: 3px solid var(--danger);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+.risk-card h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 0.5rem;
+    font-size: 0.95rem;
+}
+.risk-card h3 i { color: var(--danger); font-size: 1.05rem; }
+.risk-card p { margin: 0; font-size: 0.86rem; line-height: 1.6; }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .guide-layout { grid-template-columns: 1fr; }
+    /* Collapses to a plain index at the top rather than a floating panel that
+       would eat a third of a phone screen. */
+    .guide-toc { position: static; }
+    .guide-toc ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 1rem; }
+}
+
+@media (max-width: 600px) {
+    .flow-diagram { flex-direction: column; }
+    .flow-arrow { transform: rotate(90deg); padding: 2px 0; }
+    .formula { flex-direction: column; }
+    .formula-op { transform: rotate(90deg); }
+    .guide-section { padding-top: 2rem; margin-top: 2rem; }
+}

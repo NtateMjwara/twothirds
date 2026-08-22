@@ -1,0 +1,263 @@
+/* ============================================================
+   Commitment, invoice and legal documents
+   Load after account.css.
+   ============================================================ */
+
+.commit-layout {
+    display: grid;
+    grid-template-columns: 1fr minmax(260px, 320px);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    align-items: start;
+    margin-top: 1rem;
+}
+.commit-main { min-width: 0; }
+.commit-lede { max-width: 62ch; margin-bottom: 1.5rem; }
+
+.commit-panel {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 1rem;
+}
+.commit-panel .panel-title { margin: 0 0 0.4rem; font-size: 1.05rem; }
+.commit-panel .panel-sub { margin: 0 0 1.25rem; font-size: 0.88rem; }
+
+.commit-total { max-width: 420px; margin-top: 1.25rem; }
+.commit-total[hidden] { display: none; }
+
+/* ------------------------------------------------------------
+   Agreements
+
+   One row per document rather than a single "I agree to the
+   terms". A single tick records almost nothing about what was
+   actually seen, and these are distinct instruments.
+   ------------------------------------------------------------ */
+.agreement-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+
+.agreement-item {
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    background: var(--paper);
+    transition: border-color 0.15s ease;
+}
+.agreement-item:hover { border-color: var(--road-30); }
+/* The whole row is the label, so the tick target is the row and not a 13px box. */
+.agreement-item label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem 1.15rem;
+    margin: 0;
+    cursor: pointer;
+}
+.agreement-item input[type="checkbox"] {
+    width: auto;
+    margin: 2px 0 0;
+    flex: 0 0 auto;
+    /* Larger than default: this is a consent control, not a filter. */
+    transform: scale(1.15);
+    accent-color: var(--accent-ink);
+}
+.agreement-item:has(input:checked) { border-color: var(--accent); background: var(--surface); }
+
+.agreement-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.agreement-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 0.92rem;
+    font-weight: 500;
+    line-height: 1.4;
+}
+.agreement-summary { font-size: 0.82rem; line-height: 1.45; }
+
+.optional {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    background: var(--road-15);
+    color: var(--road);
+}
+
+.agreement-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+    font-size: 0.82rem;
+    align-self: flex-start;
+}
+.agreement-version {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--road);
+    border: 1px solid var(--road-15);
+    border-radius: 3px;
+    padding: 1px 5px;
+    background: var(--paper);
+}
+.agreement-note { margin: 1rem 0 0; font-size: 0.8rem; }
+
+.commit-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+}
+
+.commit-aside .rail-card { position: sticky; top: 84px; }
+.commit-steps { margin: 0; padding-left: 1.15rem; }
+.commit-steps li { font-size: 0.85rem; line-height: 1.55; margin-bottom: 0.6rem; }
+
+/* ------------------------------------------------------------
+   Confirmation
+   ------------------------------------------------------------ */
+.confirm-wrap { max-width: 720px; margin: 2rem auto 3rem; }
+.confirm-head { text-align: center; margin-bottom: 1.75rem; }
+.confirm-head h1 { margin: 0.75rem 0 0.4rem; }
+.confirm-head p { margin: 0; }
+.confirm-icon {
+    display: grid;
+    place-items: center;
+    width: 56px; height: 56px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: rgba(46, 125, 90, 0.12);
+    color: var(--success);
+    font-size: 1.8rem;
+}
+
+.invoice-card {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+.invoice-section { padding: clamp(1.25rem, 3vw, 1.75rem); }
+.invoice-section + .invoice-section { border-top: 1px solid var(--road-15); }
+.invoice-section h2 { margin: 0 0 1rem; font-size: 1rem; }
+.invoice-bank { background: var(--paper); }
+
+.bank-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+    margin: 0;
+}
+.bank-detail-grid dt {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+}
+.bank-detail-grid dd { margin: 0; font-size: 0.92rem; font-weight: 500; }
+.bank-detail-grid .is-mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
+
+/* The single most important field on the page. A deposit without it can't be
+   matched to a commitment, so it gets the accent border and the largest type
+   in the block. */
+.payment-reference {
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--accent-10);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+}
+.payment-reference-label {
+    display: block;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-ink);
+}
+.payment-reference-value {
+    display: block;
+    margin: 6px 0;
+    font-family: var(--font-mono);
+    font-size: clamp(1.1rem, 4vw, 1.4rem);
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    word-break: break-all;
+}
+.payment-reference-note { display: block; font-size: 0.78rem; line-height: 1.5; }
+
+.confirm-email-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 1.25rem 0 0;
+    font-size: 0.85rem;
+}
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 1.75rem;
+}
+
+/* ------------------------------------------------------------
+   Legal documents
+   ------------------------------------------------------------ */
+.legal-layout {
+    display: grid;
+    grid-template-columns: minmax(200px, 240px) 1fr;
+    gap: clamp(1.5rem, 5vw, 3rem);
+    align-items: start;
+    margin: 1.5rem 0 3rem;
+}
+.legal-nav {
+    position: sticky;
+    top: 84px;
+    padding: 1.15rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.legal-nav-title {
+    margin: 0 0 0.75rem;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
+.legal-nav ul { list-style: none; margin: 0; padding: 0; }
+.legal-nav a {
+    display: block;
+    padding: 7px 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--ink-muted);
+    text-decoration: none;
+}
+.legal-nav a:hover { color: var(--ink); }
+.legal-nav a.is-current { color: var(--ink); font-weight: 500; }
+
+.legal-doc { min-width: 0; }
+.legal-head { padding-bottom: 1.25rem; border-bottom: 1px solid var(--road-15); margin-bottom: 1.5rem; }
+.legal-head h1 { margin: 0 0 0.4rem; }
+.legal-meta { margin: 0; font-size: 0.85rem; }
+
+/* Set for reading, not for scanning: a legal instrument is read straight
+   through or not at all. */
+.legal-body {
+    max-width: 72ch;
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+@media (max-width: 900px) {
+    .commit-layout, .legal-layout { grid-template-columns: 1fr; }
+    .commit-aside .rail-card, .legal-nav { position: static; }
+}
+
+@media (max-width: 600px) {
+    .commit-actions .btn { width: 100%; justify-content: center; }
+    .confirm-actions a { flex: 1 1 auto; justify-content: center; }
+}

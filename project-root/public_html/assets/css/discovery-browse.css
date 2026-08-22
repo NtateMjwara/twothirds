@@ -1,0 +1,210 @@
+/* ============================================================
+   Discovery — pill cloud and /browse
+   Load this AFTER discovery.css. It adds the two-page split and
+   supersedes the tile grid and sidebar rules, which are listed
+   for deletion in the README.
+   ============================================================ */
+
+.section-sub { margin: 0; font-size: 0.85rem; }
+
+/* ------------------------------------------------------------
+   Activity pill cloud
+
+   Seventy-odd activities. As tiles that's a wall to scroll past;
+   as pills it's a list you can scan in one pass, and the eye can
+   land on a word rather than parsing a grid cell.
+   ------------------------------------------------------------ */
+.pill-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    /* Capped and scrolled rather than allowed to run the length of the page —
+       the section below it should still be reachable without a long scroll. */
+    max-height: 340px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+.pill-cloud::-webkit-scrollbar { width: 8px; }
+.pill-cloud::-webkit-scrollbar-thumb { background: var(--road-15); border-radius: 999px; }
+
+/* On /browse the cloud is a filter row, not a directory, so it sits open
+   without a panel around it. */
+.pill-cloud-inline {
+    padding: 0;
+    background: none;
+    border: none;
+    max-height: 132px;
+}
+
+.activity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 7px 13px;
+    border: 1px solid var(--road-15);
+    border-radius: 999px;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 0.83rem;
+    line-height: 1.2;
+    text-decoration: none;
+    transition: border-color 0.15s ease, background 0.15s ease;
+}
+.activity-pill:hover {
+    border-color: var(--road-30);
+    background: var(--surface);
+    color: var(--ink);
+}
+.activity-pill.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+}
+.activity-pill.is-active .pill-icon,
+.activity-pill.is-active .pill-count { color: rgba(255, 255, 255, 0.75); }
+/* Still clickable — an activity with no live listing leads to an honest empty
+   state, which is more useful than pretending the category doesn't exist. */
+.activity-pill.is-empty { opacity: 0.55; }
+
+.pill-icon { color: var(--accent-ink); font-size: 0.95rem; line-height: 1; }
+.pill-label { white-space: nowrap; }
+.pill-count {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--road);
+    border-left: 1px solid var(--road-15);
+    padding-left: 7px;
+}
+.activity-pill.is-active .pill-count { border-left-color: rgba(255, 255, 255, 0.25); }
+
+.cloud-note { margin: 0.85rem 0 0; font-size: 0.82rem; max-width: 66ch; }
+
+/* ------------------------------------------------------------
+   /browse masthead
+   ------------------------------------------------------------ */
+.browse-back { margin: 1.5rem 0 0.5rem; font-size: 0.88rem; }
+.browse-back a { display: inline-flex; align-items: center; gap: 4px; }
+
+.browse-masthead { text-align: center; padding: 0 0 1.5rem; }
+.browse-masthead h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    margin: 0 0 0.35em;
+}
+.browse-tagline { max-width: 56ch; margin: 0 auto 1.5rem; }
+.browse-masthead .discovery-search { margin: 0 auto; }
+
+/* ------------------------------------------------------------
+   Filter rails
+   ------------------------------------------------------------ */
+.filter-rail-group { margin-bottom: 1.25rem; }
+.filter-rail-label {
+    margin: 0 0 8px;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    text-align: center;
+}
+.chip-rail-compact { justify-content: flex-start; }
+
+/* ------------------------------------------------------------
+   Filter bar
+   ------------------------------------------------------------ */
+.filter-bar {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1.25rem;
+}
+.filter-bar-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.filter-bar-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    flex: 0 0 auto;
+}
+.filter-bar-empty { font-size: 0.85rem; }
+.filter-bar .active-filter-chips { flex: 1 1 auto; }
+
+.chip-clear {
+    background: none;
+    border-color: var(--road-15);
+    color: var(--ink-muted);
+}
+.chip-clear:hover { border-color: var(--road-30); color: var(--ink); }
+
+/* The dropdown is a <details>, so it opens and closes with no JavaScript and
+   the summary is focusable and announced correctly by default. */
+.add-filter { position: relative; margin-left: auto; flex: 0 0 auto; }
+.add-filter summary { list-style: none; cursor: pointer; }
+.add-filter summary::-webkit-details-marker { display: none; }
+.add-filter-btn { display: inline-flex; align-items: center; gap: 7px; }
+.add-filter[open] .add-filter-btn i { transform: rotate(180deg); }
+
+.add-filter-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    z-index: 20;
+    width: min(320px, calc(100vw - 3rem));
+    padding: 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+}
+.add-filter-panel .filter-group { margin-bottom: 1.1rem; }
+.add-filter-panel select,
+.add-filter-panel input { max-width: none; width: 100%; }
+.add-filter-actions { display: flex; flex-direction: column; gap: 9px; }
+.add-filter-actions .btn { justify-content: center; }
+
+/* ------------------------------------------------------------
+   Results toolbar
+   ------------------------------------------------------------ */
+.results-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+.results-toolbar .results-count { margin: 0; font-size: 0.88rem; }
+.results-toolbar .results-count strong { color: var(--ink); font-family: var(--font-mono); }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 700px) {
+    .filter-bar-head { align-items: flex-start; }
+    .add-filter { margin-left: 0; width: 100%; }
+    .add-filter-btn { width: 100%; justify-content: center; }
+    .add-filter-panel {
+        position: static;
+        width: 100%;
+        margin-top: 10px;
+        box-shadow: none;
+    }
+    .filter-rail-label { text-align: left; }
+    .pill-cloud { max-height: 220px; }
+    .pill-cloud-inline { max-height: 112px; }
+    .results-toolbar .sort-form { margin-left: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .activity-pill { transition: none; }
+}

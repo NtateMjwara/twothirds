@@ -226,7 +226,7 @@ a:hover { color: var(--accent-ink); }
     width: 100vw;
     margin-left: calc(-50vw + 50%);
 }
-.hero-inner {
+/*.hero-inner {
     max-width: 55%;
     margin: 0 6.5rem;
     padding: 4.5rem 1.5rem;
@@ -236,6 +236,20 @@ a:hover { color: var(--accent-ink); }
         to bottom,
         #8B0000 0%,
         #8B0000 40%,
+        rgba(0, 0, 0, 0.8) 40%,
+        rgba(0, 0, 0, 0.8) 100%
+    );
+}*/
+.hero-inner {
+    max-width: 55%;
+    margin: 0 6.5rem;
+    padding: 4.5rem 1.5rem;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(
+        to bottom,
+        rgba(139, 0, 0, 0.8) 0%,
+        rgba(139, 0, 0, 0.8) 40%,
         rgba(0, 0, 0, 0.8) 40%,
         rgba(0, 0, 0, 0.8) 100%
     );
@@ -700,7 +714,7 @@ table tr:hover td { background: var(--paper); }
    Discovery page - category/filter sidebar + result grid,
    dressed up to read as a real investment marketplace rather
    than a plain listing dump.
-   ============================================================ */
+   ============================================================ *
 .discovery-hero {
     display: flex;
     justify-content: space-between;

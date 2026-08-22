@@ -1,0 +1,333 @@
+/* ============================================================
+   Admin
+   Loaded after app.css, brand.css and company.css. Supersedes
+   the old .site-header rules for admin pages only.
+   ============================================================ */
+
+.admin-body { background: var(--paper); }
+
+/* ------------------------------------------------------------
+   Header and navigation
+
+   The admin bar previously held the wordmark and a log-out link,
+   nothing else - every section was reachable only by typing its
+   URL or going back through the dashboard tiles.
+   ------------------------------------------------------------ */
+.admin-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--road-15);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+}
+.admin-header-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0.7rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.admin-nav {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1 1 auto;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.admin-nav::-webkit-scrollbar { display: none; }
+
+.admin-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.admin-nav-link:hover { background: var(--paper); color: var(--ink); }
+/* Underline rather than a filled pill: the bar is dense, and a block of colour
+   at this size competes with the buttons inside the page. */
+.admin-nav-link.is-active {
+    color: var(--ink);
+    font-weight: 500;
+    box-shadow: inset 0 -2px 0 var(--accent);
+    border-radius: 6px 6px 0 0;
+}
+.admin-nav-link i { font-size: 1rem; }
+
+.admin-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+.admin-identity-name { font-size: 0.85rem; font-weight: 500; }
+
+/* The role decides what the account can do, so it's stated permanently rather
+   than discovered when something 403s. */
+.admin-role-badge {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--road-15);
+    color: var(--road);
+    white-space: nowrap;
+}
+.admin-role-badge.role-super_admin { background: var(--accent-10); color: var(--accent-ink); }
+.admin-role-badge.role-finance { background: rgba(46, 125, 90, 0.12); color: var(--success); }
+
+.admin-logout {
+    display: grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--road-15);
+    color: var(--ink-muted);
+    text-decoration: none;
+}
+.admin-logout:hover { border-color: var(--road-30); color: var(--ink); }
+
+.admin-nav-toggle { display: none; }
+
+.admin-main { max-width: 1240px; padding-bottom: 3rem; }
+
+.admin-footer {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    border-top: 1px solid var(--road-15);
+    font-size: 0.8rem;
+}
+
+/* ------------------------------------------------------------
+   Flash messages
+   ------------------------------------------------------------ */
+.flash-stack { margin: 1.25rem 0 0; display: grid; gap: 8px; }
+.flash {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin: 0;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border: 1px solid transparent;
+}
+.flash-success { background: rgba(46, 125, 90, 0.1); color: var(--success); border-color: rgba(46, 125, 90, 0.25); }
+.flash-error   { background: rgba(178, 46, 46, 0.09); color: var(--danger); border-color: rgba(178, 46, 46, 0.22); }
+.flash-warning { background: var(--accent-10); color: var(--accent-ink); border-color: var(--accent); }
+
+.notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius);
+    font-size: 0.86rem;
+    line-height: 1.5;
+}
+.notice-info { background: var(--paper); border: 1px solid var(--road-15); color: var(--ink-muted); }
+.notice-warn { background: var(--accent-10); color: var(--accent-ink); }
+
+/* ------------------------------------------------------------
+   Page furniture
+   ------------------------------------------------------------ */
+.admin-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.85rem;
+}
+.admin-breadcrumb a { display: inline-flex; align-items: center; gap: 4px; }
+
+.page-title-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+.page-title-row h1 { margin: 0; }
+.page-title-row .btn { margin-left: auto; }
+
+/* Per-company sub-navigation */
+.company-tab-nav {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--road-15);
+    margin-bottom: 1.5rem;
+    scrollbar-width: none;
+}
+.company-tab-nav::-webkit-scrollbar { display: none; }
+.company-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 14px;
+    font-size: 0.86rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+.company-tab:hover { color: var(--ink); }
+.company-tab.is-active { color: var(--ink); font-weight: 500; border-bottom-color: var(--accent); }
+
+/* ------------------------------------------------------------
+   Tables
+   ------------------------------------------------------------ */
+.admin-table { width: 100%; border-collapse: collapse; background: var(--surface); }
+.admin-table th,
+.admin-table td {
+    padding: 11px 14px;
+    text-align: left;
+    font-size: 0.88rem;
+    border-bottom: 1px solid var(--road-15);
+    vertical-align: middle;
+}
+.admin-table thead th {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    font-weight: 500;
+    background: var(--paper);
+}
+.admin-table tbody tr:hover { background: var(--paper); }
+.admin-table .is-mono { font-family: var(--font-mono); }
+
+.row-actions { display: flex; flex-wrap: wrap; gap: 4px; }
+.row-actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border: 1px solid var(--road-15);
+    border-radius: 5px;
+    font-size: 0.76rem;
+    text-decoration: none;
+    color: var(--ink-muted);
+    white-space: nowrap;
+}
+.row-actions a:hover { border-color: var(--road-30); color: var(--ink); background: var(--surface); }
+.row-actions a i { font-size: 0.85rem; }
+
+/* ------------------------------------------------------------
+   Review queue (KYC, and anything else needing a decision)
+   ------------------------------------------------------------ */
+.review-list { display: grid; gap: 1rem; }
+.review-card {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+}
+.review-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.review-name { margin: 0; font-size: 1.05rem; }
+.review-email { margin: 3px 0 0; font-size: 0.85rem; }
+
+.review-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 1rem;
+    margin: 0 0 1.1rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--road-15);
+    border-bottom: 1px solid var(--road-15);
+}
+.review-facts dt {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+}
+.review-facts dd { margin: 0; font-size: 0.92rem; font-weight: 500; }
+.review-facts .is-mono { font-family: var(--font-mono); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.reveal-form { margin: 0; }
+.revealed-flag {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--accent-ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.review-doc { margin: 0 0 1.1rem; }
+.review-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: flex-start;
+    padding-top: 1rem;
+    border-top: 1px solid var(--road-15);
+}
+.review-actions form { margin: 0; }
+.reject-form { display: flex; gap: 8px; flex: 1 1 320px; }
+.reject-form input { flex: 1 1 auto; max-width: none; margin: 0; }
+
+/* ------------------------------------------------------------
+   Dashboard tiles
+   ------------------------------------------------------------ */
+.admin-tile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.92rem;
+}
+.admin-tile i { font-size: 1.2rem; color: var(--accent-ink); }
+.admin-tile:hover { color: var(--ink); border-color: var(--road-30); }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+    .admin-header-inner { flex-wrap: wrap; gap: 0.75rem; padding: 0.7rem 1rem; }
+    .admin-nav-toggle { display: inline-flex; order: 2; margin-left: auto; }
+    .admin-identity { order: 3; }
+    .admin-nav {
+        order: 4;
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 2px;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--road-15);
+    }
+    .admin-nav.is-open { display: flex; }
+    .admin-nav-link.is-active { box-shadow: inset 3px 0 0 var(--accent); border-radius: 6px; }
+    .page-title-row .btn { margin-left: 0; width: 100%; justify-content: center; }
+}
+
+@media (max-width: 600px) {
+    .admin-identity-name { display: none; }
+    .review-actions { flex-direction: column; align-items: stretch; }
+    .reject-form { flex: 1 1 auto; }
+}

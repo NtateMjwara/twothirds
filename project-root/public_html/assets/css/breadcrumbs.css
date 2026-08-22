@@ -1,0 +1,47 @@
+/* ============================================================
+   Breadcrumbs
+   Load after app.css.
+   ============================================================ */
+
+.breadcrumbs {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 0.85rem;
+}
+.breadcrumbs ol {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.breadcrumbs li { display: flex; align-items: center; gap: 6px; }
+
+.breadcrumbs a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 2px 0;
+}
+.breadcrumbs a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); }
+
+/* The last crumb is where you are, so it is not a link and reads heavier. */
+.breadcrumbs [aria-current="page"] {
+    color: var(--ink);
+    font-weight: 500;
+    /* Long company names would otherwise wrap the trail onto three lines. */
+    max-width: 44ch;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.breadcrumbs i { color: var(--road-30); font-size: 0.8rem; }
+
+/* On a phone the middle rungs matter less than knowing where you are, but the
+   trail is short enough here (three) that hiding any of it would cost more than
+   it saves - so it just wraps. */
+@media (max-width: 600px) {
+    .breadcrumbs { font-size: 0.8rem; }
+    .breadcrumbs [aria-current="page"] { max-width: 100%; }
+}

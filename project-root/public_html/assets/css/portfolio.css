@@ -1,0 +1,283 @@
+/* ============================================================
+   Portfolio
+   Loaded after app.css and account.css.
+   ============================================================ */
+
+.portfolio-head { margin: 1.5rem 0 1.25rem; }
+.portfolio-head h1 { margin: 0 0 0.3rem; }
+.portfolio-head p { margin: 0; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   Value banner
+   The one figure someone opens this page for, so it gets the
+   width and the contrast. Graphite rather than the reference's
+   magenta-to-purple: a portfolio that is down should not be
+   announced on a celebratory gradient.
+   ------------------------------------------------------------ */
+.value-banner {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 3rem);
+    flex-wrap: wrap;
+    padding: clamp(1.25rem, 3vw, 1.75rem) clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius);
+    background: linear-gradient(150deg, #4A515C, #23282F);
+    color: #fff;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.13);
+}
+/* Direction is carried by an edge rule, not by flooding the panel - the number
+   itself says which way it went. */
+.value-banner.is-up { box-shadow: inset 0 1px 0 rgba(255,255,255,0.13), inset 4px 0 0 var(--success); }
+.value-banner.is-down { box-shadow: inset 0 1px 0 rgba(255,255,255,0.13), inset 4px 0 0 var(--danger); }
+
+.value-figure {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: clamp(1.6rem, 5vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.05;
+}
+.value-figure-muted { color: rgba(255, 255, 255, 0.45); }
+.value-label {
+    margin: 6px 0 0;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.7);
+}
+.value-caveat { display: block; text-transform: none; letter-spacing: 0; margin-top: 3px; opacity: 0.8; }
+
+.value-primary { flex: 0 0 auto; }
+.value-secondary { flex: 1 1 auto; min-width: 200px; }
+
+.value-pct {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 0.9rem 1.2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+}
+.value-pct-figure {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 1.35rem;
+    font-weight: 600;
+}
+.value-pct-label {
+    display: block;
+    margin-top: 3px;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.portfolio-note { margin: 1rem 0 0; }
+
+/* ------------------------------------------------------------
+   Layout
+   ------------------------------------------------------------ */
+.portfolio-layout {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) 1fr;
+    gap: clamp(1.25rem, 3vw, 2rem);
+    align-items: start;
+    margin-top: 1.5rem;
+}
+.portfolio-main { min-width: 0; }
+
+.portfolio-rail { display: grid; gap: 1rem; }
+
+.rail-card {
+    padding: 1.15rem 1.25rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.rail-card-quiet { background: var(--paper); }
+.rail-card-action { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+.rail-card-title {
+    margin: 0 0 0.85rem;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
+.rail-label {
+    margin: 0 0 4px;
+    font-size: 0.8rem;
+    color: var(--ink-muted);
+}
+.rail-figure { margin: 0; font-family: var(--font-mono); font-size: 1.6rem; font-weight: 600; line-height: 1; }
+.rail-figure-sm { margin: 0; font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; }
+.rail-note { margin: 3px 0 0; font-size: 0.75rem; }
+
+.rail-cta {
+    display: grid;
+    place-items: center;
+    width: 44px; height: 44px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    border: 1px solid var(--accent);
+    background: var(--accent-10);
+    color: var(--accent-ink);
+    font-size: 1.2rem;
+    text-decoration: none;
+}
+.rail-cta:hover { background: var(--accent); color: var(--ink); }
+
+.rail-split { display: flex; gap: 1.5rem; }
+.rail-stats { display: flex; gap: 1.5rem; margin: 0; flex-wrap: wrap; }
+.rail-stats dt {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 3px;
+}
+.rail-stats dd { margin: 0; font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; }
+
+.rail-fineprint { margin: 0.85rem 0 0; font-size: 0.75rem; line-height: 1.5; }
+.rail-fineprint.is-warn {
+    display: flex;
+    gap: 6px;
+    color: var(--accent-ink);
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--road-15);
+}
+.rail-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0.85rem;
+    font-size: 0.85rem;
+}
+
+/* ------------------------------------------------------------
+   Sections
+   ------------------------------------------------------------ */
+.portfolio-section { margin-bottom: 2rem; }
+.portfolio-section .section-head { margin-bottom: 1rem; }
+.section-lede { font-size: 0.88rem; max-width: 66ch; margin-bottom: 1rem; }
+
+/* ------------------------------------------------------------
+   Allocation
+   ------------------------------------------------------------ */
+.allocation-bar {
+    display: flex;
+    height: 40px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--road-15);
+}
+.allocation-seg { min-width: 2px; }
+
+/* Six tints of the same graphite family. A categorical rainbow would imply the
+   industries rank against each other; they don't. */
+.alloc-1 { background: #2B3038; }
+.alloc-2 { background: #414C57; }
+.alloc-3 { background: #57616D; }
+.alloc-4 { background: #6E7783; }
+.alloc-5 { background: #8A929C; }
+.alloc-6 { background: #A7ADB5; }
+
+.allocation-key { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 8px; }
+.allocation-key li { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; }
+.allocation-key .key-dot { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; }
+.allocation-key .key-name { flex: 1 1 auto; }
+.allocation-key .key-value { font-family: var(--font-mono); font-size: 0.85rem; white-space: nowrap; }
+.allocation-key .key-value .muted { margin-left: 6px; }
+
+/* ------------------------------------------------------------
+   Holdings
+   ------------------------------------------------------------ */
+.holding-group { margin-bottom: 1.5rem; }
+.holding-group-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+}
+.holding-group-title i { color: var(--road); font-size: 1rem; }
+.holding-group-title .muted {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    border: 1px solid var(--road-15);
+    border-radius: 3px;
+    padding: 1px 6px;
+}
+
+.holding-row, .pending-row {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.15rem;
+    margin-bottom: 8px;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    /* The left edge carries the industry grouping visually, so a long list
+       still reads as grouped once the heading has scrolled away. */
+    border-left: 3px solid var(--road-30);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.holding-row:hover { color: var(--ink); border-color: var(--road-30); border-left-color: var(--accent); box-shadow: var(--shadow-sm); }
+
+.pending-row { border-left-color: var(--accent); }
+.pending-row.is-urgent { border-left-color: var(--danger); background: rgba(178, 46, 46, 0.03); }
+.pending-row form { margin: 0; }
+
+.holding-identity { display: flex; flex-direction: column; gap: 4px; flex: 1 1 200px; min-width: 0; }
+.holding-name { font-weight: 500; font-size: 0.95rem; }
+.holding-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.78rem; }
+
+.holding-figure { display: flex; flex-direction: column; gap: 2px; text-align: right; flex: 0 0 auto; min-width: 82px; }
+.holding-figure-value { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 600; }
+.holding-figure-value.is-up { color: var(--success); }
+.holding-figure-value.is-down { color: var(--danger); }
+.holding-figure-value.is-unknown { color: var(--road-30); }
+.holding-figure-label {
+    font-size: 0.64rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-muted);
+}
+.holding-movement { min-width: 104px; }
+.holding-chevron { color: var(--ink-muted); flex: 0 0 auto; }
+
+.portfolio-empty { padding: 3.5rem 1.5rem; }
+.portfolio-empty h2 { margin-bottom: 0.4rem; }
+.portfolio-empty p { max-width: 52ch; margin-left: auto; margin-right: auto; }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 950px) {
+    .portfolio-layout { grid-template-columns: 1fr; }
+    /* Rail becomes a row of cards above the holdings rather than a column
+       pushed below them, where nobody would scroll to it. */
+    .portfolio-rail { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+}
+
+@media (max-width: 600px) {
+    .value-banner { gap: 1.25rem; }
+    .value-pct { width: 100%; }
+    .holding-row, .pending-row { gap: 0.75rem 1.25rem; }
+    .holding-identity { flex: 1 1 100%; }
+    .holding-figure { text-align: left; min-width: 72px; }
+    .holding-chevron { display: none; }
+    .allocation-key li { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .holding-row { transition: none; }
+}

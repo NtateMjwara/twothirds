@@ -1,0 +1,337 @@
+/* ============================================================
+   Stepped forms
+   Append to public_html/assets/css/admin.css
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Step indicator
+   Hidden until the script unhides it - without JavaScript every
+   panel is visible and a progress rail would be lying.
+   ------------------------------------------------------------ */
+.wizard-steps {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 0 0 1.5rem;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.wizard-steps::-webkit-scrollbar { display: none; }
+
+.wizard-step { flex: 1 1 0; min-width: 150px; }
+
+.wizard-step-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    /* The accent rule along the top is the progress signal - a filled block per
+       step turns the header into a second navigation competing with the bar
+       above it. */
+    border-top: 3px solid var(--road-15);
+    border-radius: var(--radius);
+    text-align: left;
+    cursor: pointer;
+    color: var(--ink-muted);
+    font: inherit;
+}
+.wizard-step-btn:disabled { cursor: default; opacity: 0.55; }
+.wizard-step-btn:not(:disabled):hover { border-color: var(--road-30); }
+.wizard-step-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.wizard-step.is-current .wizard-step-btn { border-top-color: var(--accent); color: var(--ink); }
+.wizard-step.is-done .wizard-step-btn { border-top-color: var(--success); color: var(--ink); }
+
+.wizard-step-mark {
+    display: grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    font-size: 1rem;
+}
+.wizard-step.is-current .wizard-step-mark { background: var(--accent-10); border-color: var(--accent); color: var(--accent-ink); }
+.wizard-step.is-done .wizard-step-mark { color: var(--success); }
+
+.wizard-step-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.wizard-step-label { font-size: 0.88rem; font-weight: 500; }
+.wizard-step-hint {
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ------------------------------------------------------------
+   Panels
+   ------------------------------------------------------------ */
+.wizard-form { max-width: 860px; }
+
+.wizard-panel {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    margin: 0 0 1rem;
+    /* Fieldsets carry browser defaults that fight the layout. */
+    min-width: 0;
+}
+/* Unenhanced: every panel visible, one long form that still submits. */
+.wizard-form.is-enhanced .wizard-panel { margin-bottom: 0; }
+
+.wizard-legend {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 1.5rem;
+}
+.wizard-legend-title {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.15rem;
+    margin-bottom: 0.3rem;
+}
+.wizard-legend-title:focus { outline: none; }
+.wizard-legend-sub {
+    display: block;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: var(--ink-muted);
+    max-width: 64ch;
+}
+
+/* ------------------------------------------------------------
+   Fields
+   Two columns, because most of these are short values and a
+   single stacked column made the form twice as long as it is.
+   ------------------------------------------------------------ */
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+.field-wide { grid-column: 1 / -1; }
+
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin: 0;
+}
+.field input,
+.field select {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+.field-help {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--ink-muted);
+}
+
+.req, .derived {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+/* Required is stated rather than starred: an asterisk needs a legend, and the
+   legend is always somewhere else on the page. */
+.req { background: var(--road-15); color: var(--road); }
+.derived { background: var(--accent-10); color: var(--accent-ink); }
+
+.field.has-error input,
+.field.has-error select { border-color: var(--danger); }
+
+/* Units belong against the input, not in the label. */
+.input-prefixed, .input-suffixed { display: flex; align-items: stretch; }
+.input-prefix, .input-suffix {
+    display: grid;
+    place-items: center;
+    padding: 0 11px;
+    background: var(--paper);
+    border: 1px solid var(--road-30);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+}
+.input-prefix { border-right: none; border-radius: 6px 0 0 6px; }
+.input-suffix { border-left: none; border-radius: 0 6px 6px 0; }
+.input-prefixed input { border-radius: 0 6px 6px 0; }
+.input-suffixed input { border-radius: 6px 0 0 6px; }
+
+.input-prefixed.is-readonly input {
+    background: var(--paper);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--ink);
+    cursor: default;
+}
+
+/* ------------------------------------------------------------
+   NAV explanation
+   ------------------------------------------------------------ */
+.nav-callout {
+    display: flex;
+    gap: 12px;
+    margin-top: 1.5rem;
+    padding: 1.1rem 1.25rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+.nav-callout > i { color: var(--accent-ink); font-size: 1.2rem; flex: 0 0 auto; }
+.nav-callout p { margin: 0; font-size: 0.85rem; line-height: 1.6; }
+.nav-callout-title { font-weight: 600; margin-bottom: 0.25rem !important; }
+
+/* ------------------------------------------------------------
+   Review
+   ------------------------------------------------------------ */
+.review-summary {
+    margin-top: 1.75rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--road-15);
+}
+.review-summary-title { margin: 0 0 1rem; font-size: 1rem; }
+.review-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem 1.5rem;
+    margin: 0;
+}
+.review-summary-grid dt {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 3px;
+}
+.review-summary-grid dd { margin: 0; font-size: 0.9rem; font-weight: 500; }
+.review-summary-grid dd.is-unset { color: var(--ink-muted); font-weight: 400; font-style: italic; }
+.review-summary-note { margin: 1.25rem 0 0; font-size: 0.8rem; }
+
+/* ------------------------------------------------------------
+   Wizard navigation
+   ------------------------------------------------------------ */
+.wizard-nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.25rem;
+    padding: 1rem 0;
+}
+.wizard-position { font-size: 0.82rem; }
+.wizard-nav [data-wizard-next],
+.wizard-nav [data-wizard-submit] { margin-left: auto; }
+
+@media (max-width: 600px) {
+    .wizard-step { min-width: 62px; flex: 0 0 auto; }
+    /* Marks only on a phone: four labelled steps won't fit and a horizontally
+       scrolling progress rail is worse than none. */
+    .wizard-step-text { display: none; }
+    .wizard-step-btn { justify-content: center; padding: 10px; }
+    .field-grid { grid-template-columns: 1fr; }
+    .wizard-nav { flex-wrap: wrap; }
+    .wizard-position { order: 3; width: 100%; text-align: center; }
+    .wizard-nav .btn, .wizard-nav .btn-outline { flex: 1 1 auto; justify-content: center; }
+}
+
+/* ============================================================
+   Tabs mode (the edit form)
+   ============================================================ */
+
+/* In tabs mode nothing is gated, so the "done" green would be meaningless -
+   only the current section is marked. */
+.wizard-form[data-mode="tabs"] ~ .wizard-steps .wizard-step.is-done .wizard-step-btn,
+.wizard-steps .wizard-step.is-done .wizard-step-btn { border-top-color: var(--road-15); }
+.wizard-steps .wizard-step.is-current .wizard-step-btn { border-top-color: var(--accent); }
+
+/* ------------------------------------------------------------
+   Save bar
+   Sticks to the bottom, because a tabbed form has no natural end
+   and hunting for a button below five collapsed sections is a
+   worse experience than the long form it replaced.
+   ------------------------------------------------------------ */
+.save-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 1.25rem;
+    padding: 0.9rem 1.1rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+}
+.save-bar .btn,
+.save-bar .btn-outline { flex: 0 0 auto; }
+.save-bar-status { margin: 0; margin-right: auto; font-size: 0.82rem; }
+.save-bar-status.is-dirty { color: var(--accent-ink); font-weight: 500; }
+
+/* ------------------------------------------------------------
+   NAV change notice
+   ------------------------------------------------------------ */
+.nav-delta {
+    display: block;
+    margin: 1rem 0 0;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    background: var(--accent-10);
+    color: var(--accent-ink);
+    border: 1px solid var(--accent);
+}
+/* Direction is stated in the sentence, not signalled by colour alone - a
+   re-pricing needs the same attention whichever way it moves. */
+.nav-delta.is-up::before   { content: "▲ "; }
+.nav-delta.is-down::before { content: "▼ "; }
+
+/* ------------------------------------------------------------
+   Inline warnings on a field
+   ------------------------------------------------------------ */
+.field-warn {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    color: var(--accent-ink);
+}
+.field-warn i { flex: 0 0 auto; margin-top: 1px; }
+
+.field textarea {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-family: inherit;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+@media (max-width: 600px) {
+    .save-bar { flex-wrap: wrap; }
+    .save-bar-status { width: 100%; margin-right: 0; }
+    .save-bar .btn, .save-bar .btn-outline { flex: 1 1 auto; justify-content: center; }
+}

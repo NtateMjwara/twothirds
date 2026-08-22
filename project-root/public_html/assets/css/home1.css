@@ -360,6 +360,7 @@
     .brand-strip { --strip-visible: 3; --logo-height: 70px; }
     .contrast-layout { grid-template-columns: 1fr; }
     .handled-grid { grid-template-columns: repeat(3, 1fr); }
+    .journey-grid { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 }
 
 @media (max-width: 620px) {
@@ -383,6 +384,9 @@
     .contrast-section { padding: 2.5rem 0 2.25rem; }
     .handled-grid { grid-template-columns: repeat(2, 1fr); }
     .handled-tile { min-height: 112px; padding: 1.1rem 0.5rem; }
+    .journey-grid { grid-template-columns: 1fr; }
+    .journey-tile { min-height: 120px; }
+    .recent-grid { grid-template-columns: 1fr 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -489,65 +493,61 @@
     gap: 1rem;
 }
 
-/* .recent-card and its children are gone: the homepage now uses the shared
-   .offering-card partial, so those rules described markup that no longer
-   exists. .recent-grid survives only to set the column count - the card itself
-   is styled by discovery.css and cards.css, which is the point. */
+.recent-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.15rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.recent-card:hover {
+    color: var(--ink);
+    transform: translateY(-2px);
+    border-color: var(--road-30);
+    box-shadow: var(--shadow-md);
+}
 
-/* ============================================================
-   Responsive — journey and recently listed
+.recent-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 0.9rem;
+}
+.recent-card .asset-icon {
+    display: grid;
+    place-items: center;
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    color: var(--road);
+    font-size: 1.15rem;
+}
 
-   THIS BLOCK MUST STAY AT THE BOTTOM OF THE FILE.
+.recent-name { font-size: 1rem; line-height: 1.3; margin: 0 0 0.4rem; }
+.recent-meta { font-size: 0.82rem; line-height: 1.5; margin: 0 0 1rem; }
+.recent-meta i { font-size: 0.85em; }
 
-   Media queries carry no extra specificity. A plain
-   `.journey-grid { grid-template-columns: repeat(3, 1fr) }`
-   declared *after* a media query targeting the same selector wins
-   at every width, and that is exactly what was happening: the
-   mobile rules were written into media blocks earlier in the file
-   than the base rules they were meant to override, so the journey
-   tiles stayed three-across on a phone and nothing looked wrong
-   in the source.
+.recent-price { margin-top: auto; display: flex; flex-direction: column; gap: 1px; }
+.recent-price-value { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 600; }
+.recent-price-label {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
 
-   Anything responsive for these sections goes here, below the
-   declarations it overrides.
-   ============================================================ */
-
-/* Three tiles side by side stop working well before the phone
-   breakpoint - the labels are two and three words long and start
-   wrapping awkwardly around 900px. */
-@media (max-width: 900px) {
-    .journey-grid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 1000px) {
     .recent-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 700px) {
-    /* Full column. A two-up grid of tiles this tall leaves each one
-       too narrow for its blurb, and the section reads as a wall
-       rather than three choices. */
-    .journey-grid { grid-template-columns: 1fr; }
-    .journey-tile {
-        min-height: 0;
-        padding: 1.4rem 1.25rem 1.9rem;
-        text-align: left;
-    }
-    .journey-tile-blurb { margin: 0; max-width: none; }
-    /* Smaller fold, so it doesn't crowd a shorter tile. */
-    .journey-tile-fold { width: 26px; height: 26px; }
-    .journey-tile:hover .journey-tile-fold { width: 32px; height: 32px; }
-
-    .journey-heading { text-align: left; }
-    .journey-sub { text-align: left; margin-left: 0; }
-    .journey-section { text-align: left; }
-}
-
-@media (max-width: 620px) {
-    /* One card at a time. Two offering cards side by side on a phone
-       leaves the cover photograph too small to read, which is the
-       one thing the card exists to show. */
-    .recent-grid { grid-template-columns: 1fr; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .journey-tile, .journey-tile-fold { transition: none; }
-    .journey-tile:hover { transform: none; }
+    .journey-tile, .journey-tile-fold, .recent-card { transition: none; }
+    .journey-tile:hover, .recent-card:hover { transform: none; }
 }

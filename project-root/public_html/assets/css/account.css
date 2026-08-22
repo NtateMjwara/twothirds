@@ -1,0 +1,308 @@
+/* ============================================================
+   Account
+   Loaded after app.css. Depends on tokens from it and reuses the
+   field grid from admin-forms.css, so load that one too - or copy
+   the .field-grid / .field / .req block across.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   Identity band
+   Same on every tab, so a support call never starts with "which
+   account am I looking at".
+   ------------------------------------------------------------ */
+.account-band {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    padding: 1.5rem;
+    margin: 1.5rem 0 1rem;
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+
+.account-identity { display: flex; align-items: center; gap: 1rem; min-width: 0; }
+
+.account-avatar {
+    display: grid;
+    place-items: center;
+    width: 62px; height: 62px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(155deg, #4A515C, #2B3038);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
+
+.account-name { margin: 0; font-size: clamp(1.15rem, 3vw, 1.5rem); }
+.account-since { margin: 3px 0 0; font-size: 0.85rem; }
+
+.account-meta { display: flex; gap: 2rem; margin: 0; flex-wrap: wrap; }
+.account-meta dt {
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 5px;
+}
+.account-meta dd { margin: 0; font-size: 0.9rem; font-weight: 500; }
+.account-meta .is-mono { font-family: var(--font-mono); }
+
+/* Status pill, shared by KYC and bank verification. Colour alone doesn't carry
+   it - each variant has its own icon and word. */
+.verify-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+.verify-pill.is-verified { background: rgba(46, 125, 90, 0.12); color: var(--success); }
+.verify-pill.is-pending  { background: var(--accent-10); color: var(--accent-ink); }
+.verify-pill.is-rejected { background: rgba(178, 46, 46, 0.1); color: var(--danger); }
+.verify-pill.is-none     { background: var(--road-15); color: var(--ink-muted); }
+
+/* ------------------------------------------------------------
+   Completion
+   Shown on every tab while anything is outstanding, and disappears
+   entirely once it isn't - a permanent 100% bar is decoration.
+   ------------------------------------------------------------ */
+.account-progress {
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+.account-progress-text { font-size: 0.88rem; margin-bottom: 0.6rem; }
+
+/* ------------------------------------------------------------
+   Tabs
+   ------------------------------------------------------------ */
+.account-tabs {
+    display: flex;
+    gap: 2px;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--road-15);
+    margin-bottom: 1.5rem;
+    scrollbar-width: none;
+}
+.account-tabs::-webkit-scrollbar { display: none; }
+
+.account-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 16px;
+    font-size: 0.88rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+}
+.account-tab:hover { color: var(--ink); }
+.account-tab.is-active { color: var(--ink); font-weight: 500; border-bottom-color: var(--accent); }
+/* A tick on the tab means a section is done, so the outstanding ones are
+   visible from wherever you happen to be. */
+.tab-check { color: var(--success); font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   Panels
+   ------------------------------------------------------------ */
+.account-panel {
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    padding: clamp(1.25rem, 3vw, 2rem);
+    max-width: 880px;
+}
+.panel-title { margin: 0 0 0.4rem; font-size: 1.2rem; }
+.panel-sub { margin: 0 0 1.5rem; font-size: 0.88rem; line-height: 1.6; max-width: 64ch; }
+
+.section-title {
+    margin: 2rem 0 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--road-15);
+    font-size: 1rem;
+}
+.account-panel form > .section-title:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.panel-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--road-15);
+}
+
+/* A read-only field is styled differently from a disabled one: it holds real
+   data you can copy, it just can't be changed here. */
+.is-readonly {
+    background: var(--paper);
+    color: var(--ink-muted);
+    cursor: default;
+}
+.field.is-disabled { opacity: 0.5; }
+.field.is-dimmed { opacity: 0.72; }
+
+/* Sub-label above a select, for the question-then-answer pattern the FICA
+   fields use. */
+.field-help-lead { margin-bottom: 2px; margin-top: -2px; }
+
+.checkbox-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 1.25rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    cursor: pointer;
+}
+.checkbox-row input { width: auto; margin: 3px 0 0; flex: 0 0 auto; }
+.checkbox-row span span { display: block; font-size: 0.82rem; margin-top: 2px; }
+.checkbox-row-lead { margin: 0 0 1.5rem; }
+
+.readonly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.25rem 0 0;
+    padding: 1.1rem 1.25rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+}
+.readonly-grid dt {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+}
+.readonly-grid dd { margin: 0; font-weight: 500; font-size: 0.92rem; }
+.readonly-grid .is-mono { font-family: var(--font-mono); }
+
+/* ------------------------------------------------------------
+   KYC
+   ------------------------------------------------------------ */
+.kyc-status-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--road-15);
+}
+.kyc-status-label { font-size: 0.88rem; font-weight: 500; }
+.kyc-doc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    font-size: 0.85rem;
+}
+
+.address-switch { margin-bottom: 1.5rem; }
+
+/* ------------------------------------------------------------
+   Bank accounts
+   ------------------------------------------------------------ */
+.bank-list { list-style: none; margin: 0 0 0.75rem; padding: 0; }
+
+.bank-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem 1.15rem;
+    background: var(--paper);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+}
+/* The payout account is the one that matters, so it is marked in the frame and
+   not only by a label that's easy to skim past. */
+.bank-row.is-primary { border-color: var(--accent); background: var(--surface); }
+
+.bank-identity { display: flex; flex-direction: column; gap: 2px; min-width: 160px; flex: 1 1 auto; }
+.bank-number { font-family: var(--font-mono); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.02em; }
+.bank-name { font-size: 0.8rem; }
+
+.bank-currency {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--road);
+    border: 1px solid var(--road-15);
+    border-radius: 3px;
+    padding: 2px 7px;
+    background: var(--surface);
+}
+
+.bank-status, .bank-primary { flex: 0 0 auto; }
+.bank-primary form { margin: 0; }
+
+.primary-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--accent-ink);
+    white-space: nowrap;
+}
+
+.bank-remove { margin: 0; flex: 0 0 auto; }
+.icon-button {
+    display: grid;
+    place-items: center;
+    width: 32px; height: 32px;
+    padding: 0;
+    border: 1px solid var(--road-15);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--ink-muted);
+    cursor: pointer;
+}
+.icon-button:hover { border-color: var(--danger); color: var(--danger); }
+
+.bank-reason {
+    flex: 1 1 100%;
+    margin: 6px 0 0;
+    font-size: 0.8rem;
+    color: var(--danger);
+}
+
+.bank-guidelines { margin-top: 2rem; }
+.bank-guidelines ul { margin: 0.75rem 0 0; padding-left: 1.15rem; }
+.bank-guidelines li { font-size: 0.85rem; line-height: 1.55; margin-bottom: 0.4rem; }
+
+/* ------------------------------------------------------------
+   Responsive
+   ------------------------------------------------------------ */
+@media (max-width: 700px) {
+    .account-band { flex-direction: column; align-items: flex-start; }
+    .account-meta { gap: 1.5rem; }
+    .account-avatar { width: 52px; height: 52px; font-size: 1.1rem; }
+    .panel-actions { justify-content: stretch; }
+    .panel-actions .btn { flex: 1 1 auto; justify-content: center; }
+
+    /* Stacked, because five columns of bank detail on a phone becomes a
+       horizontal scroll nobody discovers. */
+    .bank-row { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .bank-primary, .bank-remove { align-self: flex-start; }
+    .bank-remove { position: absolute; right: 1rem; top: 1rem; }
+    .bank-row { position: relative; padding-right: 3.5rem; }
+}

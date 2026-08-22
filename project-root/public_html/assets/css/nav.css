@@ -1,0 +1,333 @@
+/* ============================================================
+   Site navigation
+   Loaded after brand.css. Supersedes the .site-nav rules in
+   app.css — see the README for what to delete.
+   ============================================================ */
+
+/* A keyboard user shouldn't have to tab through the whole bar on every page
+   before reaching the content. Visible only when focused. */
+.skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 10px 18px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 0 0 var(--radius) 0;
+    text-decoration: none;
+}
+.skip-link:focus {
+    left: 0;
+    color: #fff;
+}
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--surface);
+    border-bottom: 1px solid var(--road-15);
+}
+.site-header-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0.7rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* ------------------------------------------------------------
+   Primary navigation
+   Public links only. Personal ones live behind the avatar, so
+   this row doesn't grow every time the account section does.
+   ------------------------------------------------------------ */
+.primary-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 1 1 auto;
+}
+
+.primary-link {
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: var(--ink-muted);
+    text-decoration: none;
+    white-space: nowrap;
+}
+.primary-link:hover { background: var(--paper); color: var(--ink); }
+.primary-link.is-active {
+    color: var(--ink);
+    font-weight: 500;
+    box-shadow: inset 0 -2px 0 var(--accent);
+    border-radius: 6px 6px 0 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+.header-login { font-size: 0.9rem; padding: 8px 12px; }
+.header-signup { padding: 8px 18px; font-size: 0.9rem; }
+
+/* ------------------------------------------------------------
+   Notification bell
+   ------------------------------------------------------------ */
+.icon-action {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    color: var(--ink-muted);
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+.icon-action:hover { background: var(--paper); color: var(--ink); }
+
+.icon-badge {
+    position: absolute;
+    top: 2px; right: 2px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    /* Danger red, not the accent: unread items are a count to clear, and the
+       accent is used across the site for money and offers. */
+    background: var(--danger);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 600;
+    border: 2px solid var(--surface);
+}
+
+/* ------------------------------------------------------------
+   Profile dropdown
+   A <details>, so it works with no JavaScript.
+   ------------------------------------------------------------ */
+.profile-menu { position: relative; }
+.profile-menu summary { list-style: none; cursor: pointer; }
+.profile-menu summary::-webkit-details-marker { display: none; }
+
+.profile-trigger {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 6px 3px 3px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+}
+.profile-trigger:hover { border-color: var(--road-15); background: var(--paper); }
+.profile-menu[open] .profile-trigger { border-color: var(--road-30); background: var(--paper); }
+.profile-menu summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 999px; }
+
+.profile-avatar {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 34px; height: 34px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: linear-gradient(155deg, #4A515C, #2B3038);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+}
+.profile-avatar-lg { width: 46px; height: 46px; font-size: 1rem; }
+
+/* A dot, not a number: this means "there is something for you to do", which is
+   a different signal from the unread count on the bell beside it. */
+.profile-avatar.needs-attention::after {
+    content: "";
+    position: absolute;
+    top: -1px; right: -1px;
+    width: 11px; height: 11px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--surface);
+}
+
+.profile-caret { font-size: 0.85rem; color: var(--ink-muted); }
+.profile-menu[open] .profile-caret { transform: rotate(180deg); }
+
+.profile-panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    z-index: 60;
+    width: min(320px, calc(100vw - 2rem));
+    background: var(--surface);
+    border: 1px solid var(--road-15);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.profile-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 1rem 1.1rem;
+    text-decoration: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--road-15);
+}
+.profile-head:hover { background: var(--paper); color: var(--ink); }
+.profile-head-text { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.profile-head-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.profile-head-sub { font-size: 0.78rem; }
+.profile-head i { color: var(--ink-muted); flex: 0 0 auto; }
+
+.profile-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0.9rem 1.1rem;
+    border-bottom: 1px solid var(--road-15);
+    background: var(--paper);
+}
+.profile-meta dt {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+}
+.profile-meta dd { margin: 0; font-size: 0.85rem; font-weight: 500; }
+.profile-meta .is-mono { font-family: var(--font-mono); }
+
+/* The single blocking task, above the ordinary links rather than lost among
+   them. */
+.profile-nudge {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 0.9rem 1.1rem;
+    background: var(--accent-10);
+    border-bottom: 1px solid var(--road-15);
+    text-decoration: none;
+    color: var(--accent-ink);
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+.profile-nudge:hover { background: var(--accent); color: var(--ink); }
+.profile-nudge i { font-size: 1.1rem; flex: 0 0 auto; margin-top: 1px; }
+.profile-nudge span span { display: block; font-size: 0.78rem; margin-top: 2px; }
+.profile-nudge:hover .muted { color: var(--ink); }
+
+.profile-group { padding: 6px 0; border-bottom: 1px solid var(--road-15); }
+.profile-group:last-child { border-bottom: none; }
+
+.profile-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 1.1rem;
+    font-size: 0.88rem;
+    text-decoration: none;
+    color: var(--ink);
+}
+.profile-item:hover { background: var(--paper); color: var(--ink); }
+.profile-item:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.profile-item i { color: var(--ink-muted); font-size: 1.05rem; }
+.profile-item span:first-of-type { flex: 1 1 auto; }
+
+.profile-item-badge {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 1px 7px;
+    border-radius: 999px;
+    background: var(--danger);
+    color: #fff;
+}
+
+/* ------------------------------------------------------------
+   Mobile
+   ------------------------------------------------------------ */
+.nav-toggle {
+    display: none;
+    place-items: center;
+    width: 38px; height: 38px;
+    padding: 0;
+    border: 1px solid var(--road-15);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--ink);
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.mobile-panel {
+    border-top: 1px solid var(--road-15);
+    padding: 0.75rem 1.5rem 1.25rem;
+    background: var(--surface);
+}
+.mobile-panel[hidden] { display: none; }
+
+.mobile-link {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 4px;
+    font-size: 0.95rem;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--road-15);
+}
+.mobile-link:last-child { border-bottom: none; }
+.mobile-link i { color: var(--ink-muted); }
+.mobile-link.is-active { font-weight: 600; box-shadow: inset 3px 0 0 var(--accent); padding-left: 12px; }
+
+.mobile-group-title {
+    margin: 1.25rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--road-15);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--ink-muted);
+}
+
+.mobile-auth { display: flex; gap: 10px; margin-top: 1rem; }
+.mobile-auth a { flex: 1 1 auto; justify-content: center; }
+
+@media (max-width: 900px) {
+    /* The primary links move into the panel. Hidden here rather than removed,
+       because the panel renders its own copy - see the partial. */
+    .primary-nav { display: none; }
+    .nav-toggle { display: grid; }
+    .header-login, .header-signup { display: none; }
+    .site-header-inner { gap: 0.75rem; padding: 0.7rem 1rem; }
+    .mobile-panel { padding-left: 1rem; padding-right: 1rem; }
+}
+
+@media (min-width: 901px) {
+    /* Never shown on desktop, even if the script left it open on a resize. */
+    .mobile-panel { display: none !important; }
+}
+
+/* Stops the page scrolling behind an open panel on a phone. */
+body.nav-open { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+    .profile-caret { transition: none; }
+}
